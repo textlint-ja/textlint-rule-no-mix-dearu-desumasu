@@ -56,7 +56,6 @@ export default function noMixDearuDesumasu(context) {
             }
         },
         [Syntax.Document + ":exit"](node){
-            console.log(dearuCount, desumasuCount);
             if (dearuCount === 0 || desumasuCount === 0) {
                 // No problem
                 return;
