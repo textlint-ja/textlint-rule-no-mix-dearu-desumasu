@@ -51,3 +51,7 @@ no-mix-dearu-desumasu: "である"調 と "ですます"調 が混在
 ## License
 
 MIT
+
+## Acknowledge
+
+Thanks for [RedPen](http://redpen.cc/ "RedPen").
