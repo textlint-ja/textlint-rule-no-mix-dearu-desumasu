@@ -28,6 +28,9 @@ export default function noMixDearuDesumasu(context) {
     let dearuCount = 0;
     let desumasuCount = 0;
 
+    let dearuLastNode = null;
+    var desumasuLastNode = null;
+
     return {
         [Syntax.Str](node){
             if (helper.isChildNode(node, [Syntax.Link, Syntax.Image, Syntax.BlockQuote, Syntax.Emphasis])) {
@@ -38,11 +41,19 @@ export default function noMixDearuDesumasu(context) {
             if (helper.isChildNode(node, [Syntax.ListItem])) {
                 return;
             }
+            var beforeDearuCount = dearuCount;
+            var beforeDesumasuCount = desumasuCount;
             var text = getSource(node);
             dearuCount += countMatchContent(text, DEARU_PATTERN);
             dearuCount += countMatchContentEnd(text, DEARU_END_PATTERN);
             desumasuCount += countMatchContent(text, DESUMASU_PATTERN);
             desumasuCount += countMatchContentEnd(text, DESUMASU_END_PATTERN);
+            if (beforeDearuCount !== dearuCount) {
+                dearuLastNode = node;
+            }
+            if (beforeDesumasuCount !== desumasuCount) {
+                desumasuLastNode = node;
+            }
         },
         [Syntax.Document + ":exit"](node){
             console.log(dearuCount, desumasuCount);
@@ -50,14 +61,18 @@ export default function noMixDearuDesumasu(context) {
                 // No problem
                 return;
             }
-            // である優先
+
+            var ruleError = new RuleError(`"である"調 と "ですます"調 が混在
+である  : ${dearuCount}
+ですます: ${desumasuCount}
+`);
             if (dearuCount > desumasuCount) {
-                report(node, new RuleError("である優先。 混在"))
+                // である優先 => 最後の"ですます"を表示
+                report(desumasuLastNode, ruleError)
             } else {
-                // ですます優先
-                report(node, new RuleError("ですます優先。 混在"));
+                // ですます優先 => 最後の"である"を表示
+                report(dearuLastNode, ruleError);
             }
         }
     }
-
 }
