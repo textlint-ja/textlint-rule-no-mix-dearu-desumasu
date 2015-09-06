@@ -7,6 +7,8 @@
 結果として「である」調と「ですます」調の使われる数をだしたものである。
 
 ```
+$ textlint --rule no-mix-dearu-desumasu README.md -f pretty-error
+
 no-mix-dearu-desumasu: "である"調 と "ですます"調 が混在
 である  : 1
 ですます: 1
