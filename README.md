@@ -29,6 +29,13 @@ no-mix-dearu-desumasu: "である"調 と "ですます"調 が混在
     8. 
 ```
 
+## FAQ
+
+- Q. 箇条書きの際に「である」調が混在することもあるのでは?
+    - 例外) 「です・ます」調の文中の「箇条書き」の部分に「である」調を使う場合
+    - http://www.p-press.jp/correct/mailmagazine/mailmagazine24.html
+- A. 箇条書き(Markdownの`-`や`*`)は判定から除外されているので、箇条書きに関しては混在出来ます。
+
 ## Tests
 
     npm test
