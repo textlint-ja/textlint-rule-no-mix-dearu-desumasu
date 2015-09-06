@@ -1,0 +1,38 @@
+{
+  "name": "textlint-rule-no-mix-dearu-desumasu",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/azu/textlint-rule-no-mix-dearu-desumasu.git"
+  },
+  "author": "azu",
+  "email": "azuciao@gmail.com",
+  "homepage": "https://github.com/azu/textlint-rule-no-mix-dearu-desumasu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/azu/textlint-rule-no-mix-dearu-desumasu/issues"
+  },
+  "version": "1.0.0",
+  "description": "textlint rule that no mix である and ですます.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "textlint",
+    "rule",
+    "japanese"
+  ],
+  "devDependencies": {
+    "babel": "^5.8.23",
+    "espower-babel": "^3.3.0",
+    "mocha": "^2.3.0",
+    "power-assert": "^1.0.0",
+    "textlint": "^3.2.2"
+  },
+  "dependencies": {
+    "textlint-rule-helper": "^1.1.3"
+  }
+}
