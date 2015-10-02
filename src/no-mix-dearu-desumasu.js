@@ -3,23 +3,27 @@
 import {RuleHelper} from "textlint-rule-helper";
 
 function countMatchContent(text, reg) {
-    var count = 0;
-    count += (text.match(reg) || []).length;
-    return count;
+    let count = 0;
+    let matches = text.match(reg) || [];
+    count += matches.length;
+    return {count, matches};
 }
 function countMatchContentEnd(text, reg) {
-    var count = 0;
-    var lines = text.split(/\r\n|\r|\n|\u2028|\u2029/g);
+    let count = 0;
+    let lines = text.split(/\r\n|\r|\n|\u2028|\u2029/g);
+    let matches = [];
     lines.forEach(line => {
-        count += (line.match(reg) || []).length;
+        let match = line.match(reg) || [];
+        matches = matches.concat(match);
+        count += matches.length;
     });
-    return count;
+    return {count, matches};
 }
 export default function noMixDearuDesumasu(context) {
     let {Syntax, RuleError, report, getSource} = context;
     let helper = new RuleHelper(context);
     // This RegExp come from https://github.com/recruit-tech/redpen/blob/master/redpen-core/src/main/java/cc/redpen/validator/sentence/JapaneseStyleValidator.java
-    const DEARU_PATTERN = /のだが|したが|したので|ないかと|してきた|であるから/g;
+    const DEARU_PATTERN = /のだが|ないかと|してきた|であるから/g;
     const DEARU_END_PATTERN = /(?:だ|である|った|ではない｜ないか|しろ|しなさい|いただきたい|いただく|ならない|あろう|られる)(?:[。]?)$/;
 
     const DESUMASU_PATTERN = /でしたが|でしたので|ですので|ですが/g;
@@ -28,8 +32,8 @@ export default function noMixDearuDesumasu(context) {
     let dearuCount = 0;
     let desumasuCount = 0;
 
-    let dearuLastNode = null;
-    var desumasuLastNode = null;
+    let dearuLastHit = null;
+    let desumasuLastHit = null;
 
     return {
         [Syntax.Str](node){
@@ -41,18 +45,26 @@ export default function noMixDearuDesumasu(context) {
             if (helper.isChildNode(node, [Syntax.ListItem])) {
                 return;
             }
-            var beforeDearuCount = dearuCount;
-            var beforeDesumasuCount = desumasuCount;
-            var text = getSource(node);
-            dearuCount += countMatchContent(text, DEARU_PATTERN);
-            dearuCount += countMatchContentEnd(text, DEARU_END_PATTERN);
-            desumasuCount += countMatchContent(text, DESUMASU_PATTERN);
-            desumasuCount += countMatchContentEnd(text, DESUMASU_END_PATTERN);
+            let beforeDearuCount = dearuCount;
+            let beforeDesumasuCount = desumasuCount;
+            let text = getSource(node);
+            let matchDearu = countMatchContent(text, DEARU_PATTERN);
+            let matchDearuEnd = countMatchContentEnd(text, DEARU_END_PATTERN);
+            let matchDesumasu = countMatchContent(text, DESUMASU_PATTERN);
+            let matchDesumasuEnd = countMatchContentEnd(text, DESUMASU_END_PATTERN);
+            dearuCount += matchDearu.count + matchDearuEnd.count;
+            desumasuCount += matchDesumasu.count + matchDesumasuEnd.count;
             if (beforeDearuCount !== dearuCount) {
-                dearuLastNode = node;
+                dearuLastHit = {
+                    node,
+                    matches: matchDearu.count > 0 ? matchDearu.matches : matchDearuEnd.matches
+                };
             }
             if (beforeDesumasuCount !== desumasuCount) {
-                desumasuLastNode = node;
+                desumasuLastHit = {
+                    node,
+                    matches: matchDesumasu.count > 0 ? matchDesumasu.matches : matchDesumasuEnd.matches
+                };
             }
         },
         [Syntax.Document + ":exit"](node){
@@ -60,17 +72,23 @@ export default function noMixDearuDesumasu(context) {
                 // No problem
                 return;
             }
-
-            var ruleError = new RuleError(`"である"調 と "ですます"調 が混在
-である  : ${dearuCount}
-ですます: ${desumasuCount}
-`);
             if (dearuCount > desumasuCount) {
                 // である優先 => 最後の"ですます"を表示
-                report(desumasuLastNode, ruleError)
+                let ruleError = new RuleError(`"である"調 と "ですます"調 が混在
+である  : ${dearuCount}
+ですます: ${desumasuCount}
+=> "${desumasuLastHit.matches.join("、")}" がですます調
+`);
+                report(desumasuLastHit.node, ruleError)
             } else {
                 // ですます優先 => 最後の"である"を表示
-                report(dearuLastNode, ruleError);
+                let ruleError = new RuleError(`"である"調 と "ですます"調 が混在
+である  : ${dearuCount}
+ですます: ${desumasuCount}
+=> "${dearuLastHit.matches.join("、")}" がである調
+`);
+
+                report(dearuLastHit.node, ruleError);
             }
         }
     }

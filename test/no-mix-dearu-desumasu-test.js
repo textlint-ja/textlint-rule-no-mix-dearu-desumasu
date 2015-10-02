@@ -18,14 +18,14 @@ describe("no-mix-dearu-desumasu", function () {
 昨日は雨だったのだが、持ち直した。
 昨日は雨だったのですが、持ち直しました。
 `);
-            assert(result.messages.length > 0);
+            assert(result.messages.length === 1);
         });
         it("文末が混在してるとreportされる", function () {
             var result = textlint.lintMarkdown(`
 今日はいい天気ですね。
 今日はいい天気である。
 `);
-            assert(result.messages.length > 0);
+            assert(result.messages.length === 1);
         });
         it("箇条書きでの混在は無視される", function () {
             var result = textlint.lintMarkdown(`
