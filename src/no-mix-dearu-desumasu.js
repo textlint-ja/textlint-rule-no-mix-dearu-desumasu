@@ -23,7 +23,7 @@ export default function noMixDearuDesumasu(context) {
     let {Syntax, RuleError, report, getSource} = context;
     let helper = new RuleHelper(context);
     // This RegExp come from https://github.com/recruit-tech/redpen/blob/master/redpen-core/src/main/java/cc/redpen/validator/sentence/JapaneseStyleValidator.java
-    const DEARU_PATTERN = /のだが|したが|したので|ないかと|してきた|であるから/g;
+    const DEARU_PATTERN = /のだが|ないかと|してきた|であるから/g;
     const DEARU_END_PATTERN = /(?:だ|である|った|ではない｜ないか|しろ|しなさい|いただきたい|いただく|ならない|あろう|られる)(?:[。]?)$/;
 
     const DESUMASU_PATTERN = /でしたが|でしたので|ですので|ですが/g;
@@ -73,21 +73,21 @@ export default function noMixDearuDesumasu(context) {
                 return;
             }
             if (dearuCount > desumasuCount) {
+                // である優先 => 最後の"ですます"を表示
                 let ruleError = new RuleError(`"である"調 と "ですます"調 が混在
 である  : ${dearuCount}
 ですます: ${desumasuCount}
 => "${desumasuLastHit.matches.join("、")}" がですます調
 `);
-                // である優先 => 最後の"ですます"を表示
                 report(desumasuLastHit.node, ruleError)
             } else {
+                // ですます優先 => 最後の"である"を表示
                 let ruleError = new RuleError(`"である"調 と "ですます"調 が混在
 である  : ${dearuCount}
 ですます: ${desumasuCount}
 => "${dearuLastHit.matches.join("、")}" がである調
 `);
 
-                // ですます優先 => 最後の"である"を表示
                 report(dearuLastHit.node, ruleError);
             }
         }
