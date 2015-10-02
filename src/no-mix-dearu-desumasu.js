@@ -3,17 +3,17 @@
 import {RuleHelper} from "textlint-rule-helper";
 
 function countMatchContent(text, reg) {
-    var count = 0;
-    var matches = text.match(reg) || [];
+    let count = 0;
+    let matches = text.match(reg) || [];
     count += matches.length;
     return {count, matches};
 }
 function countMatchContentEnd(text, reg) {
-    var count = 0;
-    var lines = text.split(/\r\n|\r|\n|\u2028|\u2029/g);
-    var matches = [];
+    let count = 0;
+    let lines = text.split(/\r\n|\r|\n|\u2028|\u2029/g);
+    let matches = [];
     lines.forEach(line => {
-        var match = line.match(reg) || [];
+        let match = line.match(reg) || [];
         matches = matches.concat(match);
         count += matches.length;
     });
