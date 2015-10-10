@@ -26,18 +26,18 @@ export default function noMixDearuDesumasu(context) {
             let text = getSource(node);
             let retDearu = analyzeDearu(text);
             let retDesumasu = analyzeDesumasu(text);
-            dearuCount += retDearu.count;
-            desumasuCount += retDesumasu.count;
+            dearuCount += retDearu.length;
+            desumasuCount += retDesumasu.length;
             if (beforeDearuCount !== dearuCount) {
                 dearuLastHit = {
                     node,
-                    matches: retDearu.matches
+                    matches: retDearu
                 };
             }
             if (beforeDesumasuCount !== desumasuCount) {
                 desumasuLastHit = {
                     node,
-                    matches: retDesumasu.matches
+                    matches: retDesumasu
                 };
             }
         },
@@ -48,21 +48,29 @@ export default function noMixDearuDesumasu(context) {
             }
             if (dearuCount > desumasuCount) {
                 // である優先 => 最後の"ですます"を表示
+                let hitNode = desumasuLastHit.matches[0];
                 let ruleError = new RuleError(`"である"調 と "ですます"調 が混在
-=> "${desumasuLastHit.matches.map(match => match.value).join("、")}" がですます調
+=> "${hitNode.value}" がですます調
 Total:
 である  : ${dearuCount}
 ですます: ${desumasuCount}
-`);
+`, {
+                    line: hitNode.lineNumber - 1,
+                    column: hitNode.columnIndex
+                });
                 report(desumasuLastHit.node, ruleError)
-            } else {
+            } else if (dearuLastHit.matches) {
                 // ですます優先 => 最後の"である"を表示
+                let hitNode = dearuLastHit.matches[0];
                 let ruleError = new RuleError(`"である"調 と "ですます"調 が混在
-=> "${dearuLastHit.matches.map(match => match.value).join("、")}" がである調
+=> "${hitNode.value}" がである調
 Total:
 である  : ${dearuCount}
 ですます: ${desumasuCount}
-`);
+`, {
+                    line: hitNode.lineNumber - 1,
+                    column: hitNode.columnIndex
+                });
 
                 report(dearuLastHit.node, ruleError);
             }

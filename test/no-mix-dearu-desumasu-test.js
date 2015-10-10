@@ -18,8 +18,7 @@ tester.run("no-mix-dearu-desumasu", rule, {
     invalid: [
         // 接続の混在
         {
-            text: `
-昨日は雨だったのだが、持ち直した。
+            text: `昨日は雨だったのだが、持ち直した。
 昨日は雨だったのですが、持ち直しました。
 `,
             errors: [
@@ -29,14 +28,15 @@ tester.run("no-mix-dearu-desumasu", rule, {
 Total:
 である  : 1
 ですます: 2
-`
+`,
+                    line: 1,
+                    column: 7
                 }
             ]
         },
         // 文末が混在してるとreportされる
         {
-            text: `
-今日はいい天気ですね。
+            text: `今日はいい天気ですね。
 今日はいい天気である。
 `,
             errors: [
@@ -47,7 +47,9 @@ Total:
 Total:
 である  : 1
 ですます: 1
-`
+`,
+                    line: 2,
+                    column: 7
                 }
             ]
         }
