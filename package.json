@@ -37,10 +37,10 @@
     "espower-babel": "^3.3.0",
     "mocha": "^2.3.0",
     "power-assert": "^1.0.0",
-    "textlint": "^3.2.2",
-    "textlint-formatter": "^1.1.4"
+    "textlint-tester": "^0.1.1"
   },
   "dependencies": {
+    "analyze-desumasu-dearu": "^1.0.1",
     "textlint-rule-helper": "^1.1.3"
   }
 }

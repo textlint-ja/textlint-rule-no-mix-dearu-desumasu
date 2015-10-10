@@ -1,7 +1,7 @@
 // LICENSE : MIT
 "use strict";
 import {RuleHelper} from "textlint-rule-helper";
-import analyze from "./analyze.js";
+import {analyzeDesumasu,analyzeDearu} from "analyze-desumasu-dearu";
 export default function noMixDearuDesumasu(context) {
     let {Syntax, RuleError, report, getSource} = context;
     let helper = new RuleHelper(context);
@@ -24,19 +24,20 @@ export default function noMixDearuDesumasu(context) {
             let beforeDearuCount = dearuCount;
             let beforeDesumasuCount = desumasuCount;
             let text = getSource(node);
-            let {desu,dearu} = analyze(text);
-            dearuCount += dearu.count;
-            desumasuCount += desu.count;
+            let retDearu = analyzeDearu(text);
+            let retDesumasu = analyzeDesumasu(text);
+            dearuCount += retDearu.count;
+            desumasuCount += retDesumasu.count;
             if (beforeDearuCount !== dearuCount) {
                 dearuLastHit = {
                     node,
-                    matches: dearu.matches
+                    matches: retDearu.matches
                 };
             }
             if (beforeDesumasuCount !== desumasuCount) {
                 desumasuLastHit = {
                     node,
-                    matches: desu.matches
+                    matches: retDesumasu.matches
                 };
             }
         },
@@ -48,17 +49,19 @@ export default function noMixDearuDesumasu(context) {
             if (dearuCount > desumasuCount) {
                 // である優先 => 最後の"ですます"を表示
                 let ruleError = new RuleError(`"である"調 と "ですます"調 が混在
+=> "${desumasuLastHit.matches.map(match => match.value).join("、")}" がですます調
+Total:
 である  : ${dearuCount}
 ですます: ${desumasuCount}
-=> "${desumasuLastHit.matches.join("、")}" がですます調
 `);
                 report(desumasuLastHit.node, ruleError)
             } else {
                 // ですます優先 => 最後の"である"を表示
                 let ruleError = new RuleError(`"である"調 と "ですます"調 が混在
+=> "${dearuLastHit.matches.map(match => match.value).join("、")}" がである調
+Total:
 である  : ${dearuCount}
 ですます: ${desumasuCount}
-=> "${dearuLastHit.matches.join("、")}" がである調
 `);
 
                 report(dearuLastHit.node, ruleError);
