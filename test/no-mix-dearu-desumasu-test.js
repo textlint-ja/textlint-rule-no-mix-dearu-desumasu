@@ -30,7 +30,7 @@ Total:
 ですます: 2
 `,
                     line: 1,
-                    column: 7
+                    column: 8
                 }
             ]
         },
@@ -49,7 +49,7 @@ Total:
 ですます: 1
 `,
                     line: 2,
-                    column: 7
+                    column: 8
                 }
             ]
         }

@@ -37,7 +37,7 @@
     "espower-babel": "^3.3.0",
     "mocha": "^2.3.0",
     "power-assert": "^1.0.0",
-    "textlint-tester": "^0.1.1"
+    "textlint-tester": "^0.2.0"
   },
   "dependencies": {
     "analyze-desumasu-dearu": "^2.0.0",

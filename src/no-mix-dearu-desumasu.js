@@ -5,13 +5,22 @@ import {analyzeDesumasu,analyzeDearu} from "analyze-desumasu-dearu";
 export default function noMixDearuDesumasu(context) {
     let {Syntax, RuleError, report, getSource} = context;
     let helper = new RuleHelper(context);
-    let dearuCount = 0;
-    let desumasuCount = 0;
+    let dearuCount;
+    let desumasuCount;
 
-    let dearuLastHit = null;
-    let desumasuLastHit = null;
+    let dearuLastHit;
+    let desumasuLastHit;
+
+    function initialize() {
+        dearuCount = 0;
+        desumasuCount = 0;
+
+        dearuLastHit = null;
+        desumasuLastHit = null;
+    }
 
     return {
+        [Syntax.Document]: initialize,
         [Syntax.Str](node){
             if (helper.isChildNode(node, [Syntax.Link, Syntax.Image, Syntax.BlockQuote, Syntax.Emphasis])) {
                 return;
