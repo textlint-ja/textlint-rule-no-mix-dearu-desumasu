@@ -33,8 +33,8 @@ export default function noMixDearuDesumasu(context) {
             let beforeDearuCount = dearuCount;
             let beforeDesumasuCount = desumasuCount;
             let text = getSource(node);
-            let retDearu = analyzeDearu(text);
-            let retDesumasu = analyzeDesumasu(text);
+            let retDearu = analyzeDearu(text, {analyzeConjunction: false});
+            let retDesumasu = analyzeDesumasu(text, {analyzeConjunction: false});
             dearuCount += retDearu.length;
             desumasuCount += retDesumasu.length;
             if (beforeDearuCount !== dearuCount) {
