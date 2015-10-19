@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/azu/textlint-rule-no-mix-dearu-desumasu/issues"
   },
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "textlint rule that no mix である and ですます.",
   "main": "lib/no-mix-dearu-desumasu.js",
   "files": [
