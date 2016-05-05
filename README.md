@@ -18,15 +18,20 @@ More detail in [example/](example/).
 ```
 $ textlint --rule no-mix-dearu-desumasu README.md -f pretty-error
 
-no-mix-dearu-desumasu: "である"調 と "ですます"調 が混在
-である  : 1
-ですます: 1
+no-mix-dearu-desumasu: 本文: "である"調 と "ですます"調 が混在
+=> "である" がである調
+Total:
+である  : 3
+ですます: 3
 
-/Users/azu/.ghq/github.com/azu/textlint-rule-no-mix-dearu-desumasu/example/README.md:7:0
-      v
+/Users/azu/.ghq/github.com/azu/textlint-rule-no-mix-dearu-desumasu/example/README.md:7:7
+                    v
     6. 
     7. 結果として「である」調と「ですます」調の使われる数をだしたものである。
     8. 
+                    ^
+
+✖ 1 problem (1 error, 0 warnings)
 ```
 
 ## FAQ
