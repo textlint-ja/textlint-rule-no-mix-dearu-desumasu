@@ -1,6 +1,6 @@
 # textlint-rule-no-mix-dearu-desumasu [![Build Status](https://travis-ci.org/azu/textlint-rule-no-mix-dearu-desumasu.svg?branch=master)](https://travis-ci.org/azu/textlint-rule-no-mix-dearu-desumasu)
 
-「ですます」調と「である」調の混在をチェックする[textlint](https://github.com/azu/textlint "textlint")ルール。
+敬体(ですます調)と常体(である調)
 
 ## Installation
 
@@ -8,12 +8,26 @@
 
 ## Usage
 
-    npm install textlint textlint-rule-no-mix-dearu-desumasu
-    textlint --rule no-mix-dearu-desumasu
+Via `.textlintrc`(Recommended)
+
+
+```json
+{
+    "rules": {
+        "-no-mix-dearu-desumasu": true
+    }
+}
+```
+
+Via CLI
+
+```
+textlint --rule -no-mix-dearu-desumasu README.md
+```
 
 ## Example
 
-More detail in [example/](example/).
+詳しくは[example/](example/)を動かして試してみてください。
 
 ```
 $ textlint --rule no-mix-dearu-desumasu README.md -f pretty-error
@@ -39,7 +53,22 @@ Total:
 - Q. 箇条書きの際に「である」調が混在することもあるのでは?
     - 例外) 「です・ます」調の文中の「箇条書き」の部分に「である」調を使う場合
     - http://www.p-press.jp/correct/mailmagazine/mailmagazine24.html
-- A. 箇条書き(Markdownの`-`や`*`)は判定から除外されているので、箇条書きに関しては混在出来ます。
+- A. 本文、見出し、箇条書き それぞれは別々にカウントします。
+
+箇条書き(`- リスト`)同士の間で混在している場合はエラーとなりますが、
+**本文**と**箇条書き**での混在は問題ありません。
+
+- 本文(Markdownなら通常の文章部分)
+- 見出し(Markdownなら`#`)
+- 箇条書き(Markdownなら`* item`や`- item`)
+
+それぞれ、別々に扱っているため、これらの間での混在は問題ありません。
+
+## Further Reading
+
+- [JTF日本語標準スタイルガイド](https://www.jtf.jp/jp/style_guide/styleguide_top.html "JTF日本語標準スタイルガイド")
+    - 1.1.1 - 1.1.3で同様のルールが扱われています。
+    - [azu/textlint-rule-preset-JTF-style: JTF日本語標準スタイルガイド for textlint.](https://github.com/azu/textlint-rule-preset-JTF-style "azu/textlint-rule-preset-JTF-style: JTF日本語標準スタイルガイド for textlint.")も参照してください。
 
 ## Tests
 
