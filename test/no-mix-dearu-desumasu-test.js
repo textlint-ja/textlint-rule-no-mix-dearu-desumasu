@@ -139,7 +139,7 @@ Total:
 明日はいい天気である。
 `,
             options: {
-                preferInBody: "ですます"
+                preferInBody: "である"
             },
             errors: [
                 // 優先指定した、"ですます" に統一するのを優先する

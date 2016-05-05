@@ -21,15 +21,15 @@ module.exports = function noMixedDearuDesumasu(context, options = defaultOptions
     const helper = new RuleHelper(context);
     const bodyChecker = new BodyMixedChecker(context, {
         preferDesumasu: options.preferInBody === PreferTypes.DESUMASU,
-        preferDearu: options.preferInBody === PreferTypes.DESUMASU
+        preferDearu: options.preferInBody === PreferTypes.DEARU
     });
     const headerChecker = new HeaderMixedChecker(context, {
         preferDesumasu: options.preferInHeader === PreferTypes.DESUMASU,
-        preferDearu: options.preferInHeader === PreferTypes.DESUMASU
+        preferDearu: options.preferInHeader === PreferTypes.DEARU
     });
     const listChecker = new ListMixedChecker(context, {
         preferDesumasu: options.preferInList === PreferTypes.DESUMASU,
-        preferDearu: options.preferInList === PreferTypes.DESUMASU
+        preferDearu: options.preferInList === PreferTypes.DEARU
     });
     return {
         // 見出し

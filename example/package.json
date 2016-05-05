@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "pretest": "npm uninstall textlint-rule-no-mix-dearu-desumasu && npm install",
-    "test": "textlint --rule no-mix-dearu-desumasu README.md -f pretty-error;test $? -eq 1"
+    "test": "textlint README.md -f pretty-error;test $? -eq 1"
   },
   "author": "azu",
   "license": "MIT",
