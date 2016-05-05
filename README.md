@@ -8,12 +8,26 @@
 
 ## Usage
 
-    npm install textlint textlint-rule-no-mix-dearu-desumasu
-    textlint --rule no-mix-dearu-desumasu
+Via `.textlintrc`(Recommended)
+
+
+```json
+{
+    "rules": {
+        "-no-mix-dearu-desumasu": true
+    }
+}
+```
+
+Via CLI
+
+```
+textlint --rule -no-mix-dearu-desumasu README.md
+```
 
 ## Example
 
-More detail in [example/](example/).
+詳しくは[example/](example/)を動かして試してみてください。
 
 ```
 $ textlint --rule no-mix-dearu-desumasu README.md -f pretty-error
