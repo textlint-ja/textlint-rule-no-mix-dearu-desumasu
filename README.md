@@ -2,6 +2,13 @@
 
 敬体(ですます調)と常体(である調)の混在をチェックする[textlint](http://textlint.github.io/ "textlint")ルール。
 
+本文、見出し、箇条書きをそれぞれ独立してチェックし、その中で表記が混在していないかを見つけます。
+(本文と見出しの間で表記が混在していても問題ないという意味です)
+
+- 本文(Markdownなら通常の文章部分)
+- 見出し(Markdownなら`#`)
+- 箇条書き(Markdownなら`* item`や`- item`)
+
 ## Installation
 
     npm install textlint-rule-no-mix-dearu-desumasu
@@ -23,6 +30,49 @@ Via CLI
 
 ```
 textlint --rule no-mix-dearu-desumasu README.md
+```
+
+## Options
+
+それぞれの項目ごとに優先する表記をオプションで設定できます。
+
+- 本文(Body)
+- 見出し(Header)
+- 箇条書き(List)
+
+デフォルトは ""(空)で、多く使われている表記を自動的に優先します。
+優先したい表記を "である" または "ですます" で指定します。
+
+```js
+{
+    "rules": {
+        "no-mix-dearu-desumasu": {
+             "preferInHeader": "", // "である" or "ですます"
+             "preferInBody": "",   // "である" or "ですます"
+             "preferInList": ""    // "である" or "ですます"
+        }
+    }
+}
+```
+
+例えば、以下の例だと
+
+- 見出しは自動
+- 本文はですます
+- 箇条書きはである
+
+というルールでチェックします。
+
+```js
+{
+    "rules": {
+        "no-mix-dearu-desumasu": {
+             "preferInHeader": "", // "である" or "ですます"
+             "preferInBody": "ですます",// "である" or "ですます"
+             "preferInList": "である"    // "である" or "ですます"
+        }
+    }
+}
 ```
 
 ## Example
