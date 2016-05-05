@@ -3,22 +3,30 @@
 import {RuleHelper} from "textlint-rule-helper";
 import BodyMixedChecker from "./BodyMixedChecker";
 import HeaderMixedChecker from "./HeaderMixedChecker";
+import ListMixedChecker from "./ListMixedChecker";
 export default function noMixedDearuDesumasu(context) {
     const {Syntax, getSource} = context;
     const helper = new RuleHelper(context);
     const strChecker = new BodyMixedChecker(context);
     const headerChecker = new HeaderMixedChecker(context);
+    const listChecker = new ListMixedChecker(context);
     return {
+        // 見出し
         [Syntax.Header](node){
             const text = getSource(node);
             headerChecker.check(node, text);
         },
+        // 箇条書き
+        [Syntax.ListItem](node){
+            const text = getSource(node);
+            listChecker.check(node, text);
+        },
+        // 本文
         [Syntax.Str](node){
             if (helper.isChildNode(node, [Syntax.Link, Syntax.Image, Syntax.BlockQuote, Syntax.Emphasis])) {
                 return;
             }
-            // 例外) 「です・ます」調の文中の「箇条書き」の部分に「である」調を使う場合
-            // http://www.p-press.jp/correct/mailmagazine/mailmagazine24.html
+            // 見出しと箇条書きは別途チェックするので Header > Str などは無視する
             if (helper.isChildNode(node, [Syntax.Header, Syntax.ListItem])) {
                 return;
             }
@@ -26,9 +34,11 @@ export default function noMixedDearuDesumasu(context) {
             strChecker.check(node, text);
         },
         [Syntax.Document + ":exit"](){
-            return strChecker.checkout().then(() => {
-                return headerChecker.checkout();
-            });
+            return Promise.all([
+                strChecker.checkout(),
+                headerChecker.checkout(),
+                listChecker.checkout()
+            ]);
         }
     }
 }
