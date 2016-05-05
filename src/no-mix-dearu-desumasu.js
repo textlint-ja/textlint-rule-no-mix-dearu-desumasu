@@ -4,7 +4,7 @@ import {RuleHelper} from "textlint-rule-helper";
 import BodyMixedChecker from "./BodyMixedChecker";
 import HeaderMixedChecker from "./HeaderMixedChecker";
 import ListMixedChecker from "./ListMixedChecker";
-export default function noMixedDearuDesumasu(context) {
+module.exports = function noMixedDearuDesumasu(context) {
     const {Syntax, getSource} = context;
     const helper = new RuleHelper(context);
     const strChecker = new BodyMixedChecker(context);
@@ -41,4 +41,4 @@ export default function noMixedDearuDesumasu(context) {
             ]);
         }
     }
-}
+};
