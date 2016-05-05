@@ -14,7 +14,7 @@ Via `.textlintrc`(Recommended)
 ```json
 {
     "rules": {
-        "-no-mix-dearu-desumasu": true
+        "no-mix-dearu-desumasu": true
     }
 }
 ```
@@ -22,7 +22,7 @@ Via `.textlintrc`(Recommended)
 Via CLI
 
 ```
-textlint --rule -no-mix-dearu-desumasu README.md
+textlint --rule no-mix-dearu-desumasu README.md
 ```
 
 ## Example
