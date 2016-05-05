@@ -4,12 +4,33 @@ import {RuleHelper} from "textlint-rule-helper";
 import BodyMixedChecker from "./BodyMixedChecker";
 import HeaderMixedChecker from "./HeaderMixedChecker";
 import ListMixedChecker from "./ListMixedChecker";
-module.exports = function noMixedDearuDesumasu(context) {
+// Default: false
+// デフォルトでその項目で多く出現している方を優先します。
+// 明示的にpreferの設定した場合は、そちらを優先した内容をエラーとして表示します。
+export const PreferTypes = {
+    DESUMASU: "ですます",
+    DEARU: "である"
+};
+const defaultOptions = {
+    preferInHeader: "", // "である" or "ですます"
+    preferInBody: "",   // "である" or "ですます"
+    preferInList: ""    // "である" or "ですます"
+};
+module.exports = function noMixedDearuDesumasu(context, options = defaultOptions) {
     const {Syntax, getSource} = context;
     const helper = new RuleHelper(context);
-    const strChecker = new BodyMixedChecker(context);
-    const headerChecker = new HeaderMixedChecker(context);
-    const listChecker = new ListMixedChecker(context);
+    const bodyChecker = new BodyMixedChecker(context, {
+        preferDesumasu: options.preferInBody === PreferTypes.DESUMASU,
+        preferDearu: options.preferInBody === PreferTypes.DEARU
+    });
+    const headerChecker = new HeaderMixedChecker(context, {
+        preferDesumasu: options.preferInHeader === PreferTypes.DESUMASU,
+        preferDearu: options.preferInHeader === PreferTypes.DEARU
+    });
+    const listChecker = new ListMixedChecker(context, {
+        preferDesumasu: options.preferInList === PreferTypes.DESUMASU,
+        preferDearu: options.preferInList === PreferTypes.DEARU
+    });
     return {
         // 見出し
         [Syntax.Header](node){
@@ -31,11 +52,11 @@ module.exports = function noMixedDearuDesumasu(context) {
                 return;
             }
             const text = getSource(node);
-            strChecker.check(node, text);
+            bodyChecker.check(node, text);
         },
         [Syntax.Document + ":exit"](){
             return Promise.all([
-                strChecker.checkout(),
+                bodyChecker.checkout(),
                 headerChecker.checkout(),
                 listChecker.checkout()
             ]);

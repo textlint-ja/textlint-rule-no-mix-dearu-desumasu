@@ -1,0 +1,9 @@
+{
+  "rules": {
+    "no-mix-dearu-desumasu": {
+      "preferInHeader": "", // "である" or "ですます"
+      "preferInBody": "ですます",   // "である" or "ですます"
+      "preferInList": "である"    // "である" or "ですます"
+    }
+  }
+}
