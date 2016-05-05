@@ -4,9 +4,15 @@ import {analyze, isDearu, isDesumasu} from "analyze-desumasu-dearu";
 export default class MixedChecker {
     /**
      * @param context
+     * @param {{preferDearu:boolean, preferDesumasu: boolean}} options
      */
-    constructor(context) {
+    constructor(context, options) {
         this.context = context;
+        /**
+         * 明示的な優先するタイプの指定
+         * @type {{preferDearu: boolean, preferDesumasu: boolean}}
+         */
+        this.options = options;
         this.dearuCount = 0;
         this.desumasuCount = 0;
         this.dearuHitList = [];
@@ -46,17 +52,22 @@ export default class MixedChecker {
             }
             const RuleError = this.context.RuleError;
             const report = this.context.report;
-            const overHitList = this.overHitList;
+            const overType = this.getOverType();
+            const overHitList = this.overHitList(overType);
+            // List
             overHitList.forEach(({
                 node,
                 matches
             }) => {
+                // Node
                 const lastHitNode = node;
-                const lastHitToken = matches[0];
-                const ruleError = new RuleError(this.outputMessage(lastHitToken), {
-                    index: lastHitToken.index
+                // Tokens
+                matches.forEach(token => {
+                    const ruleError = new RuleError(this.outputMessage(token), {
+                        index: token.index
+                    });
+                    report(lastHitNode, ruleError)
                 });
-                report(lastHitNode, ruleError)
             });
         });
     }
@@ -65,7 +76,16 @@ export default class MixedChecker {
         return this.dearuCount !== 0 && this.desumasuCount !== 0;
     }
 
+    /**
+     * 優先するtypeを返します。
+     * @returns {*}
+     */
     getOverType() {
+        if (this.options.preferDearu) {
+            return "である"
+        } else if (this.options.preferDesumasu) {
+            return "ですます";
+        }
         if (this.dearuCount > this.desumasuCount) {
             return "である";
         } else {
@@ -73,8 +93,7 @@ export default class MixedChecker {
         }
     }
 
-    get overHitList() {
-        const overType = this.getOverType();
+    overHitList(overType) {
         if (overType === "である") {
             return this.desumasuHitList;
         } else if (overType === "ですます") {
