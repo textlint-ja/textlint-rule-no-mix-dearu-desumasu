@@ -9,8 +9,8 @@ export default class MixedChecker {
         this.context = context;
         this.dearuCount = 0;
         this.desumasuCount = 0;
-        this.dearuLastHit = null;
-        this.desumasuLastHit = null;
+        this.dearuHitList = [];
+        this.desumasuHitList = [];
         this._queue = Promise.resolve();
     }
 
@@ -23,17 +23,17 @@ export default class MixedChecker {
                 const desumasuCount = this.desumasuCount + retDesumasu.length;
                 if (this.dearuCount !== dearuCount) {
                     this.dearuCount = dearuCount;
-                    this.dearuLastHit = {
+                    this.dearuHitList.push({
                         node,
                         matches: retDearu
-                    };
+                    });
                 }
                 if (this.desumasuCount !== desumasuCount) {
                     this.desumasuCount = desumasuCount;
-                    this.desumasuLastHit = {
+                    this.desumasuHitList.push({
                         node,
                         matches: retDesumasu
-                    };
+                    });
                 }
             });
         });
@@ -46,12 +46,18 @@ export default class MixedChecker {
             }
             const RuleError = this.context.RuleError;
             const report = this.context.report;
-            const lastHitNode = this.lastHitNode;
-            const lastHitToken = this.lastHitToken;
-            const ruleError = new RuleError(this.outputMessage() , {
-                index: lastHitToken.index
+            const overHitList = this.overHitList;
+            overHitList.forEach(({
+                node,
+                matches
+            }) => {
+                const lastHitNode = node;
+                const lastHitToken = matches[0];
+                const ruleError = new RuleError(this.outputMessage(lastHitToken), {
+                    index: lastHitToken.index
+                });
+                report(lastHitNode, ruleError)
             });
-            report(lastHitNode, ruleError)
         });
     }
 
@@ -67,30 +73,21 @@ export default class MixedChecker {
         }
     }
 
-    get lastHitNode() {
+    get overHitList() {
         const overType = this.getOverType();
         if (overType === "である") {
-            return this.desumasuLastHit.node;
+            return this.desumasuHitList;
         } else if (overType === "ですます") {
-            return this.dearuLastHit.node;
-        }
-    }
-    get lastHitToken() {
-        const overType = this.getOverType();
-        if (overType === "である") {
-            return this.desumasuLastHit.matches[0];
-        } else if (overType === "ですます") {
-            return this.dearuLastHit.matches[0];
+            return this.dearuHitList;
         }
     }
 
-    outputMessage() {
+    outputMessage(token) {
         const overType = this.getOverType();
-        const hitToken = this.lastHitToken;
         if (overType === "である") {
             // である優先 => 最後の"ですます"を表示
             return `"である"調 と "ですます"調 が混在
-=> "${hitToken.value}" がですます調
+=> "${token.value}" がですます調
 Total:
 である  : ${this.dearuCount}
 ですます: ${this.desumasuCount}
@@ -98,7 +95,7 @@ Total:
         } else if (overType === "ですます") {
             // ですます優先 => 最後の"である"を表示
             return `"である"調 と "ですます"調 が混在
-=> "${hitToken.value}" がである調
+=> "${token.value}" がである調
 Total:
 である  : ${this.dearuCount}
 ですます: ${this.desumasuCount}
