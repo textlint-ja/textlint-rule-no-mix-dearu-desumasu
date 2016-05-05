@@ -1,8 +1,7 @@
 {
   "name": "example",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "pretest": "npm uninstall textlint-rule-no-mix-dearu-desumasu && npm install",
     "test": "textlint --rule no-mix-dearu-desumasu README.md -f pretty-error;test $? -eq 1"
@@ -10,7 +9,7 @@
   "author": "azu",
   "license": "MIT",
   "dependencies": {
-    "textlint": "^3.2.2",
+    "textlint": "^6.0.0",
     "textlint-rule-no-mix-dearu-desumasu": "file:.."
   }
 }
