@@ -1,26 +1,87 @@
 // LICENSE : MIT
 "use strict";
 import {RuleHelper} from "textlint-rule-helper";
-import {analyzeDesumasu,analyzeDearu} from "analyze-desumasu-dearu";
-export default function noMixDearuDesumasu(context) {
-    let {Syntax, RuleError, report, getSource} = context;
-    let helper = new RuleHelper(context);
-    let dearuCount;
-    let desumasuCount;
-
-    let dearuLastHit;
-    let desumasuLastHit;
-
-    function initialize() {
-        dearuCount = 0;
-        desumasuCount = 0;
-
-        dearuLastHit = null;
-        desumasuLastHit = null;
+import {analyze, isDearu, isDesumasu} from "analyze-desumasu-dearu";
+export class MixedChecker {
+    /**
+     * @param context
+     */
+    constructor(context) {
+        this.context = context;
+        this.dearuCount = 0;
+        this.desumasuCount = 0;
+        this.dearuLastHit = null;
+        this.desumasuLastHit = null;
+        this._queue = Promise.resolve();
     }
 
+    check(node, text) {
+        this._queue = this._queue.then(() => {
+            return analyze(text).then(results => {
+                const retDearu = results.filter(isDearu);
+                const retDesumasu = results.filter(isDesumasu);
+                const dearuCount = this.dearuCount + retDearu.length;
+                const desumasuCount = this.desumasuCount + retDesumasu.length;
+                if (this.dearuCount !== dearuCount) {
+                    this.dearuCount = dearuCount;
+                    this.dearuLastHit = {
+                        node,
+                        matches: retDearu
+                    };
+                }
+                if (this.desumasuCount !== desumasuCount) {
+                    this.desumasuCount = desumasuCount;
+                    this.desumasuLastHit = {
+                        node,
+                        matches: retDesumasu
+                    };
+                }
+            });
+        });
+    }
+
+    checkout() {
+        return this._queue.then(() => {
+            if (this.dearuCount === 0 || this.desumasuCount === 0) {
+                // No problem
+                return;
+            }
+            const RuleError = this.context.RuleError;
+            const report = this.context.report;
+            if (this.dearuCount > this.desumasuCount) {
+                // である優先 => 最後の"ですます"を表示
+                const hitNode = this.desumasuLastHit.matches[0];
+                const ruleError = new RuleError(`"である"調 と "ですます"調 が混在
+=> "${hitNode.value}" がですます調
+Total:
+である  : ${this.dearuCount}
+ですます: ${this.desumasuCount}
+`, {
+                    index: hitNode.index
+                });
+                report(this.desumasuLastHit.node, ruleError)
+            } else if (this.dearuLastHit.matches) {
+                // ですます優先 => 最後の"である"を表示
+                const hitNode = this.dearuLastHit.matches[0];
+                const ruleError = new RuleError(`"である"調 と "ですます"調 が混在
+=> "${hitNode.value}" がである調
+Total:
+である  : ${this.dearuCount}
+ですます: ${this.desumasuCount}
+`, {
+                    index: hitNode.index
+                });
+
+                report(this.dearuLastHit.node, ruleError);
+            }
+        });
+    }
+}
+export default function noMixedDearuDesumasu(context) {
+    const {Syntax, getSource} = context;
+    const helper = new RuleHelper(context);
+    const strChecker = new MixedChecker(context);
     return {
-        [Syntax.Document]: initialize,
         [Syntax.Str](node){
             if (helper.isChildNode(node, [Syntax.Link, Syntax.Image, Syntax.BlockQuote, Syntax.Emphasis])) {
                 return;
@@ -30,59 +91,11 @@ export default function noMixDearuDesumasu(context) {
             if (helper.isChildNode(node, [Syntax.ListItem])) {
                 return;
             }
-            let beforeDearuCount = dearuCount;
-            let beforeDesumasuCount = desumasuCount;
-            let text = getSource(node);
-            let retDearu = analyzeDearu(text, {analyzeConjunction: false});
-            let retDesumasu = analyzeDesumasu(text, {analyzeConjunction: false});
-            dearuCount += retDearu.length;
-            desumasuCount += retDesumasu.length;
-            if (beforeDearuCount !== dearuCount) {
-                dearuLastHit = {
-                    node,
-                    matches: retDearu
-                };
-            }
-            if (beforeDesumasuCount !== desumasuCount) {
-                desumasuLastHit = {
-                    node,
-                    matches: retDesumasu
-                };
-            }
+            const text = getSource(node);
+            strChecker.check(node, text);
         },
-        [Syntax.Document + ":exit"](node){
-            if (dearuCount === 0 || desumasuCount === 0) {
-                // No problem
-                return;
-            }
-            if (dearuCount > desumasuCount) {
-                // である優先 => 最後の"ですます"を表示
-                let hitNode = desumasuLastHit.matches[0];
-                let ruleError = new RuleError(`"である"調 と "ですます"調 が混在
-=> "${hitNode.value}" がですます調
-Total:
-である  : ${dearuCount}
-ですます: ${desumasuCount}
-`, {
-                    line: hitNode.lineNumber - 1,
-                    column: hitNode.columnIndex
-                });
-                report(desumasuLastHit.node, ruleError)
-            } else if (dearuLastHit.matches) {
-                // ですます優先 => 最後の"である"を表示
-                let hitNode = dearuLastHit.matches[0];
-                let ruleError = new RuleError(`"である"調 と "ですます"調 が混在
-=> "${hitNode.value}" がである調
-Total:
-である  : ${dearuCount}
-ですます: ${desumasuCount}
-`, {
-                    line: hitNode.lineNumber - 1,
-                    column: hitNode.columnIndex
-                });
-
-                report(dearuLastHit.node, ruleError);
-            }
+        [Syntax.Document + ":exit"](){
+            return strChecker.checkout();
         }
     }
 }
