@@ -120,6 +120,47 @@ Total:
     - 1.1.1 - 1.1.3で同様のルールが扱われています。
     - [azu/textlint-rule-preset-JTF-style: JTF日本語標準スタイルガイド for textlint.](https://github.com/azu/textlint-rule-preset-JTF-style "azu/textlint-rule-preset-JTF-style: JTF日本語標準スタイルガイド for textlint.")も参照してください。
 
+## リファクタリング例
+
+このルールを使ってリファクタリングしてみた例です。
+
+- [refactor(textlint): 敬体(ですます調)と常体(である調)の使い分けを厳密に by azu · Pull Request #94 · azu/JavaScript-Plugin-Architecture](https://github.com/azu/JavaScript-Plugin-Architecture/pull/94 "refactor(textlint): 敬体(ですます調)と常体(である調)の使い分けを厳密に by azu · Pull Request #94 · azu/JavaScript-Plugin-Architecture") 
+
+```diff
+-先ほどのgulpタスクの例では、既にモジュール化された処理を`pipe`で繋げただけであるため、
++先ほどのgulpタスクの例では、既にモジュール化された処理を`pipe`で繋げただけで、
+ それぞれの処理がどのように実装されているかはよく分かりませんでした。
+```
+
+```diff
+-BufferはStringと相互変換が可能であるため、多くのgulpプラグインと呼ばれるものは、`gulpPrefixer`と`prefixBuffer`にあたる部分だけを実装しています。
++BufferはStringと相互変換が可能なので、多くのgulpプラグインと呼ばれるものは、`gulpPrefixer`と`prefixBuffer`にあたる部分だけを実装しています。
+```
+
+```diff
+-gulpではプラグインが持つ機能は1つ(単機能)であること推奨しています。
++gulpではプラグインが持つ機能は1つ(単機能)とすることを推奨しています。
+```
+
+```diff
+-`jQuery.fn`の実装を見てみると、実態は`jQuery.prototype`であるため実際にprototype拡張していることがわかります。
++`jQuery.fn`の実装を見てみると、実態は`jQuery.prototype`なので、prototype拡張していることがわかります。
+```
+
+```diff
+-単純なprototype拡張であると言えるので、利点はJavaScriptのprototypeと同様です。
++単純なprototype拡張なので、利点はJavaScriptのprototypeと同様です。
+```
+
+```diff
+-まだNode.jsで使われているCommonJSやES6 Modulesといったものがなかった時代に作られた仕組みであるため、
++まだNode.jsで使われているCommonJSやES6 Modulesなどがなかった時代に作られた仕組みなので、
+```
+
+他にいい代替表現など書き方の指摘を募集しています。
+
+- [Docs: リファクタリング例を募集 · Issue #11 · azu/textlint-rule-no-mix-dearu-desumasu](https://github.com/azu/textlint-rule-no-mix-dearu-desumasu/issues/11 "Docs: リファクタリング例を募集 · Issue #11 · azu/textlint-rule-no-mix-dearu-desumasu")
+
 ## Tests
 
     npm test
