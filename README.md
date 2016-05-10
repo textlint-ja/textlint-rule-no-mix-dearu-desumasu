@@ -49,7 +49,7 @@ textlint --rule no-mix-dearu-desumasu README.md
         "no-mix-dearu-desumasu": {
              "preferInHeader": "", // "である" or "ですます"
              "preferInBody": "ですます",// "である" or "ですます"
-             "preferInList": "である"    // "である" or "ですます"
+             "preferInList": "である",    // "である" or "ですます"
              // 文末以外でも、敬体(ですます調)と常体(である調)を厳しくチェックするかどうか
              "strict": false
          }
@@ -71,7 +71,7 @@ textlint --rule no-mix-dearu-desumasu README.md
         "no-mix-dearu-desumasu": {
              "preferInHeader": "", // "である" or "ですます"
              "preferInBody": "ですます",// "である" or "ですます"
-             "preferInList": "である"    // "である" or "ですます"
+             "preferInList": "である",    // "である" or "ですます"
              // 文末以外でも、敬体(ですます調)と常体(である調)を厳しくチェックするかどうか
              "strict": true
         }

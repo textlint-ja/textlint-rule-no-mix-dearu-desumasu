@@ -12,11 +12,11 @@ export const PreferTypes = {
     DEARU: "である"
 };
 const defaultOptions = {
-    preferInHeader: "", // "である" or "ですます"
-    preferInBody: "",   // "である" or "ですます"
-    preferInList: "",    // "である" or "ですます",
+    "preferInHeader": "", // "である" or "ですます"
+    "preferInBody": "",   // "である" or "ですます"
+    "preferInList": "",   // "である" or "ですます"
     // 文末以外でも、敬体(ですます調)と常体(である調)を厳しくチェックするかどうか
-    strict: false
+    "strict": true
 };
 module.exports = function noMixedDearuDesumasu(context, options = defaultOptions) {
     const {Syntax, getSource} = context;

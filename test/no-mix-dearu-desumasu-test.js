@@ -12,11 +12,10 @@ tester.run("no-mix-dearu-desumasu", rule, {
             }
         },
         {
-            // ですがはstrict:falseでは無視される
+            // ですがはstrict:false(=デフォルト)では無視される
             text: "昨日はいい天気ですが、今日は悪天候である。",
             options: {
-                preferInBody: "である",
-                strict: false
+                preferInBody: "である"
             }
         },
         `今日はいい天気ですね。
