@@ -42,7 +42,7 @@
     "textlint-tester": "^1.2.0"
   },
   "dependencies": {
-    "analyze-desumasu-dearu": "^3.0.4",
+    "analyze-desumasu-dearu": "^3.1.0",
     "textlint-rule-helper": "^1.1.3"
   }
 }

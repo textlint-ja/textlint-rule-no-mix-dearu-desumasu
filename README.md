@@ -48,9 +48,11 @@ textlint --rule no-mix-dearu-desumasu README.md
     "rules": {
         "no-mix-dearu-desumasu": {
              "preferInHeader": "", // "である" or "ですます"
-             "preferInBody": "",   // "である" or "ですます"
-             "preferInList": ""    // "である" or "ですます"
-        }
+             "preferInBody": "ですます",// "である" or "ですます"
+             "preferInList": "である"    // "である" or "ですます"
+             // 文末以外でも、敬体(ですます調)と常体(である調)を厳しくチェックするかどうか
+             "strict": false
+         }
     }
 }
 ```
@@ -61,7 +63,7 @@ textlint --rule no-mix-dearu-desumasu README.md
 - 本文はですます
 - 箇条書きはである
 
-というルールでチェックします。
+かつ `strict`モードでチェックします。
 
 ```js
 {
@@ -70,10 +72,25 @@ textlint --rule no-mix-dearu-desumasu README.md
              "preferInHeader": "", // "である" or "ですます"
              "preferInBody": "ですます",// "である" or "ですます"
              "preferInList": "である"    // "である" or "ですます"
+             // 文末以外でも、敬体(ですます調)と常体(である調)を厳しくチェックするかどうか
+             "strict": true
         }
     }
 }
 ```
+
+- `strict`
+    - default: `false`
+    - 文末以外でも、敬体(ですます調)と常体(である調)を厳しくチェックするかどうか
+    
+例えば、`strict:false`(デフォルト)では以下のような"である場合に"という接続的な"である"利用方法は無視されます。
+
+> 今日はいい天気である場合に明日はどうなるか
+
+`strict:false`では次のような文末が"である"というような誰が見ても常体(である調)であるものを検出します。
+
+> 今日はいい天気である。
+
 
 ## Example
 
@@ -113,6 +130,18 @@ Total:
 - 箇条書き(Markdownなら`* item`や`- item`)
 
 それぞれ、別々に扱っているため、これらの間での混在は問題ありません。
+
+- Q. なぜデフォルトでは文末ののみの検出なのですか?
+- A. 自然言語に絶対の表現がないためデフォルトを緩くするためです。
+
+textlintでは多くのルールはfalse positiveにならないように、デフォルトを緩く設定しています。
+厳しく(接続的なであるなども)検出したい場合は、`{ "strict": true }` オプションが利用できます。
+
+関連Issue
+
+- [接続的な "である" を無視するオプション · Issue #5 · azu/analyze-desumasu-dearu](https://github.com/azu/analyze-desumasu-dearu/issues/5)
+- [Proposal: デフォルトでは文末の"です/である"のみ検出するように · Issue #13 · azu/textlint-rule-no-mix-dearu-desumasu](https://github.com/azu/textlint-rule-no-mix-dearu-desumasu/issues/13)
+
 
 ## Further Reading
 
