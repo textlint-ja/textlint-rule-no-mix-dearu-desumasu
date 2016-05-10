@@ -16,7 +16,7 @@ const defaultOptions = {
     "preferInBody": "",   // "である" or "ですます"
     "preferInList": "",   // "である" or "ですます"
     // 文末以外でも、敬体(ですます調)と常体(である調)を厳しくチェックするかどうか
-    "strict": true
+    "strict": false
 };
 module.exports = function noMixedDearuDesumasu(context, options = defaultOptions) {
     const {Syntax, getSource} = context;
