@@ -11,6 +11,13 @@ tester.run("no-mix-dearu-desumasu", rule, {
                 preferInBody: "である"
             }
         },
+        {
+            // ですがはstrict:false(=デフォルト)では無視される
+            text: "昨日はいい天気ですが、今日は悪天候である。",
+            options: {
+                preferInBody: "である"
+            }
+        },
         `今日はいい天気ですね。
 
 そうですね。`,
@@ -31,7 +38,15 @@ tester.run("no-mix-dearu-desumasu", rule, {
 # 今日はいい天気ですね
 
 今日はいい天気である。
-`
+`,
+        {
+            // であるがは"接続"的なものなので無視される
+            text: `AはBである
+CはDです。`,
+            options: {
+                strict: false
+            }
+        }
 
 
     ],
@@ -109,7 +124,7 @@ Total:
                 }
             ]
         },
-// 箇条書き間での混在
+        // 箇条書き間での混在
         {
             text: `
 - 今日はいい天気ですね
@@ -172,6 +187,70 @@ Total:
 `,
                     line: 3,
                     column: 8
+                }
+            ]
+        },
+        // strict
+        {
+            text: "昨日はいい天気であったが、今日は雨です。",
+            options: {
+                strict: true
+            },
+            errors: [[
+                {
+                    message: `本文: "である"調 と "ですます"調 が混在
+=> "である。" がである調
+Total:
+である  : 1
+ですます: 1
+`,
+                    line: 1,
+                    column: 18
+                }
+            ]
+            ]
+        },
+        {
+            //                 vvvv
+            text: `今日はいい天気であるが、明日はどうなるか分からない。
+しかし、今日はいい天気ですね。だが明日はどうなるかわからないのである。`,
+            options: {
+                preferInBody: "である",
+                strict: true
+            },
+            errors: [
+                {
+                    message: `本文: "である"調 と "ですます"調 が混在
+=> "ですね。" がですます調
+Total:
+である  : 2
+ですます: 1
+`,
+                    line: 2,
+                    column: 12
+                }
+            ]
+        },
+        {
+            // "AはBである"は"接続"的なものなので無視
+            text: `AはBである
+CはDです。
+一方、AとCは同じものである。
+`,
+            options: {
+                preferInBody: "です",
+                strict: false
+            },
+            errors: [
+                {
+                    message: `本文: "である"調 と "ですます"調 が混在
+=> "である。" がである調
+Total:
+である  : 1
+ですます: 1
+`,
+                    line: 3,
+                    column: 12
                 }
             ]
         }

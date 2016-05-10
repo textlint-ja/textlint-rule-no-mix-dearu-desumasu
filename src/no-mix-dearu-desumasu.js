@@ -4,32 +4,37 @@ import {RuleHelper} from "textlint-rule-helper";
 import BodyMixedChecker from "./BodyMixedChecker";
 import HeaderMixedChecker from "./HeaderMixedChecker";
 import ListMixedChecker from "./ListMixedChecker";
-// Default: false
-// デフォルトでその項目で多く出現している方を優先します。
-// 明示的にpreferの設定した場合は、そちらを優先した内容をエラーとして表示します。
 export const PreferTypes = {
     DESUMASU: "ですます",
     DEARU: "である"
 };
+// デフォルトでその項目で多く出現している方を優先します。
+// 明示的にpreferの設定した場合は、そちらを優先した内容をエラーとして表示します。
 const defaultOptions = {
-    preferInHeader: "", // "である" or "ですます"
-    preferInBody: "",   // "である" or "ですます"
-    preferInList: ""    // "である" or "ですます"
+    "preferInHeader": "", // "である" or "ですます"
+    "preferInBody": "",   // "である" or "ですます"
+    "preferInList": "",   // "である" or "ですます"
+    // 文末以外でも、敬体(ですます調)と常体(である調)を厳しくチェックするかどうか
+    "strict": false
 };
 module.exports = function noMixedDearuDesumasu(context, options = defaultOptions) {
     const {Syntax, getSource} = context;
     const helper = new RuleHelper(context);
+    const isStrict = options.strict !== undefined ? options.strict : defaultOptions.strict;
     const bodyChecker = new BodyMixedChecker(context, {
         preferDesumasu: options.preferInBody === PreferTypes.DESUMASU,
-        preferDearu: options.preferInBody === PreferTypes.DEARU
+        preferDearu: options.preferInBody === PreferTypes.DEARU,
+        isStrict
     });
     const headerChecker = new HeaderMixedChecker(context, {
         preferDesumasu: options.preferInHeader === PreferTypes.DESUMASU,
-        preferDearu: options.preferInHeader === PreferTypes.DEARU
+        preferDearu: options.preferInHeader === PreferTypes.DEARU,
+        isStrict
     });
     const listChecker = new ListMixedChecker(context, {
         preferDesumasu: options.preferInList === PreferTypes.DESUMASU,
-        preferDearu: options.preferInList === PreferTypes.DEARU
+        preferDearu: options.preferInList === PreferTypes.DEARU,
+        isStrict
     });
     return {
         // 見出し

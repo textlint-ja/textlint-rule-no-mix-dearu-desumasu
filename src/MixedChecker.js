@@ -10,7 +10,7 @@ export default class MixedChecker {
         this.context = context;
         /**
          * 明示的な優先するタイプの指定
-         * @type {{preferDearu: boolean, preferDesumasu: boolean}}
+         * @type {{preferDearu: boolean, preferDesumasu: boolean, isStrict: boolean}}
          */
         this.options = options;
         this.dearuCount = 0;
@@ -22,7 +22,10 @@ export default class MixedChecker {
 
     check(node, text) {
         this._queue = this._queue.then(() => {
-            return analyze(text).then(results => {
+            const analyzeOptions = {
+                ignoreConjunction: !this.options.isStrict
+            };
+            return analyze(text, analyzeOptions).then(results => {
                 const retDearu = results.filter(isDearu);
                 const retDesumasu = results.filter(isDesumasu);
                 const dearuCount = this.dearuCount + retDearu.length;
