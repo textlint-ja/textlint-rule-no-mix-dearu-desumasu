@@ -4,13 +4,12 @@ import {RuleHelper} from "textlint-rule-helper";
 import BodyMixedChecker from "./BodyMixedChecker";
 import HeaderMixedChecker from "./HeaderMixedChecker";
 import ListMixedChecker from "./ListMixedChecker";
-// Default: false
-// デフォルトでその項目で多く出現している方を優先します。
-// 明示的にpreferの設定した場合は、そちらを優先した内容をエラーとして表示します。
 export const PreferTypes = {
     DESUMASU: "ですます",
     DEARU: "である"
 };
+// デフォルトでその項目で多く出現している方を優先します。
+// 明示的にpreferの設定した場合は、そちらを優先した内容をエラーとして表示します。
 const defaultOptions = {
     "preferInHeader": "", // "である" or "ですます"
     "preferInBody": "",   // "である" or "ですます"
