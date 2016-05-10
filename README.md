@@ -83,17 +83,17 @@ textlint --rule no-mix-dearu-desumasu README.md
     - default: `false`
     - 文末以外でも、敬体(ですます調)と常体(である調)を厳しくチェックするかどうか
     
-例えば、`strict:false`(デフォルト)では以下のような"である場合に"という接続的な"である"は無視されます。
-そのため、次のような "であったが" は無視されています。
+例えば、`strict:false`(デフォルト)では以下のような **"であったが"** という接続的な"である"は無視されます。
+次の例では **"であったが"** は無視されているため、"です"のみが使われているという判定になります。
 
 > OK: 昨日はいい天気であったが、今日は雨です。
 
-`strict:false`では次のような文末が"である"や"です"といったものだけを検出します。
-そのため、次の文章は"ですが"と"である"が混在しているのでエラーとなります。
+`strict:false`では次のような文末が **"である"** や **"です"** といったものだけを検出します。
+そのため、次の文章は **"ですが"** と **"である"** が混在しているのでエラーとなります。
 
 > NG: 今日はいい天気である。明日も晴れです。
 
-`strict:true`としていた場合では、以下の文章は"ですが"と"である"が混在しているのでエラーとなります。
+`strict:true`としていた場合では、以下の文章は **"ですが"** と **"である"** が混在しているのでエラーとなります。
 
 > NG: 今日はいい天気ですが、明日は悪天候である。
 
@@ -181,6 +181,11 @@ A. オプションに`"strict": true`を追加してください。
 - [接続的な "である" を無視するオプション · Issue #5 · azu/analyze-desumasu-dearu](https://github.com/azu/analyze-desumasu-dearu/issues/5)
 - [Proposal: デフォルトでは文末の"です/である"のみ検出するように · Issue #13 · azu/textlint-rule-no-mix-dearu-desumasu](https://github.com/azu/textlint-rule-no-mix-dearu-desumasu/issues/13)
 
+### Q. これは誤判定なのでは?
+
+A. 以下のIssueに書き込んで下さい。
+
+- [誤判定してるケースを書き込む場所 · Issue #15 · azu/textlint-rule-no-mix-dearu-desumasu](https://github.com/azu/textlint-rule-no-mix-dearu-desumasu/issues/15 "誤判定してるケースを書き込む場所 · Issue #15 · azu/textlint-rule-no-mix-dearu-desumasu")
 
 ## Further Reading
 
