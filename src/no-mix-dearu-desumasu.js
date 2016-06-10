@@ -54,7 +54,7 @@ module.exports = function noMixedDearuDesumasu(context, options = defaultOptions
         // 本文
         [Syntax.Paragraph](node){
             const ignoredNodeTypes = [Syntax.Link, Syntax.Code, Syntax.Image, Syntax.BlockQuote, Syntax.Emphasis];
-            // 見出しと箇条書きは別途チェックするので Header > Str などは無視する
+            // 無視リストのTypeが親にある場合は無視する
             if (helper.isChildNode(node, ignoredNodeTypes)) {
                 return;
             }
