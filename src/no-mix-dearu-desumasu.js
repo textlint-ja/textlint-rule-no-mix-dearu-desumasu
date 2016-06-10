@@ -48,7 +48,7 @@ module.exports = function noMixedDearuDesumasu(context, options = defaultOptions
             listChecker.check(node, text);
         },
         // 本文
-        [Syntax.Str](node){
+        [Syntax.Paragraph](node){
             if (helper.isChildNode(node, [Syntax.Link, Syntax.Image, Syntax.BlockQuote, Syntax.Emphasis])) {
                 return;
             }

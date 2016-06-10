@@ -46,9 +46,10 @@ CはDです。`,
             options: {
                 strict: false
             }
+        },
+        {
+            text: "Aである`code`です。"
         }
-
-
     ],
     invalid: [
         // 本文での混在
