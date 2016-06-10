@@ -46,8 +46,24 @@ CはDです。`,
             options: {
                 strict: false
             }
+        },
+        {
+            text: "Aである`code`です。"
+        },
+        // ignore BlockQuote
+        {
+            text: `
+> 今日はいい天気ですね。
+> 今日はいい天気である。
+`
+        },
+        // ignore code
+        {
+            text: `
+[今日はいい天気ですね。](http://example.com)
+[今日はいい天気である。](http://example.com)
+`
         }
-
 
     ],
     invalid: [

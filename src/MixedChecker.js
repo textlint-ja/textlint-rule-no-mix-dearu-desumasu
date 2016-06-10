@@ -48,7 +48,11 @@ export default class MixedChecker {
         });
     }
 
-    checkout() {
+    /**
+     * @param {IgnoreManger}ignoreManger
+     * @returns {Promise.<TResult>}
+     */
+    checkout(ignoreManger) {
         return this._queue.then(() => {
             if (!this.isOver()) {
                 return;
@@ -66,6 +70,11 @@ export default class MixedChecker {
                 const lastHitNode = node;
                 // Tokens
                 matches.forEach(token => {
+                    const hitIndex = node.range[0] + token.index;
+                    if (ignoreManger.isIgnoredIndex(hitIndex)) {
+                        return;
+                    }
+
                     const ruleError = new RuleError(this.outputMessage(token), {
                         index: token.index
                     });
@@ -96,6 +105,11 @@ export default class MixedChecker {
         }
     }
 
+    /**
+     * hist node list
+     * @param overType
+     * @returns {Array}
+     */
     overHitList(overType) {
         if (overType === "である") {
             return this.desumasuHitList;
@@ -104,6 +118,11 @@ export default class MixedChecker {
         }
     }
 
+    /**
+     * create message string
+     * @param token
+     * @returns {string}
+     */
     outputMessage(token) {
         const overType = this.getOverType();
         if (overType === "である") {

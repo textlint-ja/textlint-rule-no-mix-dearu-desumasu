@@ -4,6 +4,8 @@ import {RuleHelper} from "textlint-rule-helper";
 import BodyMixedChecker from "./BodyMixedChecker";
 import HeaderMixedChecker from "./HeaderMixedChecker";
 import ListMixedChecker from "./ListMixedChecker";
+import IgnoreManger from "./IgnoreManger";
+const visit = require('unist-util-visit');
 export const PreferTypes = {
     DESUMASU: "ですます",
     DEARU: "である"
@@ -21,6 +23,8 @@ module.exports = function noMixedDearuDesumasu(context, options = defaultOptions
     const {Syntax, getSource} = context;
     const helper = new RuleHelper(context);
     const isStrict = options.strict !== undefined ? options.strict : defaultOptions.strict;
+
+    const ignoreManger = new IgnoreManger();
     const bodyChecker = new BodyMixedChecker(context, {
         preferDesumasu: options.preferInBody === PreferTypes.DESUMASU,
         preferDearu: options.preferInBody === PreferTypes.DEARU,
@@ -48,22 +52,30 @@ module.exports = function noMixedDearuDesumasu(context, options = defaultOptions
             listChecker.check(node, text);
         },
         // 本文
-        [Syntax.Str](node){
-            if (helper.isChildNode(node, [Syntax.Link, Syntax.Image, Syntax.BlockQuote, Syntax.Emphasis])) {
+        [Syntax.Paragraph](node){
+            const ignoredNodeTypes = [Syntax.Link, Syntax.Code, Syntax.Image, Syntax.BlockQuote, Syntax.Emphasis];
+            // 見出しと箇条書きは別途チェックするので Header > Str などは無視する
+            if (helper.isChildNode(node, ignoredNodeTypes)) {
                 return;
             }
             // 見出しと箇条書きは別途チェックするので Header > Str などは無視する
             if (helper.isChildNode(node, [Syntax.Header, Syntax.ListItem])) {
                 return;
             }
+            // childrenに無視するtypeがいた場合は無視リストに加える
+            visit(node, visitedNode => {
+                if (ignoredNodeTypes.indexOf(visitedNode.type) !== -1) {
+                    ignoreManger.addNode(visitedNode);
+                }
+            });
             const text = getSource(node);
             bodyChecker.check(node, text);
         },
         [Syntax.Document + ":exit"](){
             return Promise.all([
-                bodyChecker.checkout(),
-                headerChecker.checkout(),
-                listChecker.checkout()
+                bodyChecker.checkout(ignoreManger),
+                headerChecker.checkout(ignoreManger),
+                listChecker.checkout(ignoreManger)
             ]);
         }
     }
