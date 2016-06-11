@@ -5,7 +5,6 @@ import BodyMixedChecker from "./BodyMixedChecker";
 import HeaderMixedChecker from "./HeaderMixedChecker";
 import ListMixedChecker from "./ListMixedChecker";
 import IgnoreManger from "./IgnoreManger";
-const visit = require('unist-util-visit');
 export const PreferTypes = {
     DESUMASU: "ですます",
     DEARU: "である"
@@ -19,11 +18,11 @@ const defaultOptions = {
     // 文末以外でも、敬体(ですます調)と常体(である調)を厳しくチェックするかどうか
     "strict": false
 };
+
 module.exports = function noMixedDearuDesumasu(context, options = defaultOptions) {
     const {Syntax, getSource} = context;
     const helper = new RuleHelper(context);
     const isStrict = options.strict !== undefined ? options.strict : defaultOptions.strict;
-
     const ignoreManger = new IgnoreManger();
     const bodyChecker = new BodyMixedChecker(context, {
         preferDesumasu: options.preferInBody === PreferTypes.DESUMASU,
@@ -63,11 +62,8 @@ module.exports = function noMixedDearuDesumasu(context, options = defaultOptions
                 return;
             }
             // childrenに無視するtypeがいた場合は無視リストに加える
-            visit(node, visitedNode => {
-                if (ignoredNodeTypes.indexOf(visitedNode.type) !== -1) {
-                    ignoreManger.addNode(visitedNode);
-                }
-            });
+            ignoreManger.ignoreChildrenByTypes(node, ignoredNodeTypes);
+            // check
             const text = getSource(node);
             bodyChecker.check(node, text);
         },
