@@ -1,10 +1,9 @@
 // LICENSE : MIT
 "use strict";
-import {RuleHelper} from "textlint-rule-helper";
+import {RuleHelper, IgnoreNodeManger} from "textlint-rule-helper";
 import BodyMixedChecker from "./BodyMixedChecker";
 import HeaderMixedChecker from "./HeaderMixedChecker";
 import ListMixedChecker from "./ListMixedChecker";
-import IgnoreManger from "./IgnoreManger";
 export const PreferTypes = {
     DESUMASU: "ですます",
     DEARU: "である"
@@ -22,8 +21,8 @@ const defaultOptions = {
 module.exports = function noMixedDearuDesumasu(context, options = defaultOptions) {
     const {Syntax, getSource} = context;
     const helper = new RuleHelper(context);
+    const ignoreManger = new IgnoreNodeManger();
     const isStrict = options.strict !== undefined ? options.strict : defaultOptions.strict;
-    const ignoreManger = new IgnoreManger();
     const bodyChecker = new BodyMixedChecker(context, {
         preferDesumasu: options.preferInBody === PreferTypes.DESUMASU,
         preferDearu: options.preferInBody === PreferTypes.DEARU,
