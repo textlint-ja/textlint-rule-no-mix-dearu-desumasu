@@ -1,6 +1,6 @@
 // LICENSE : MIT
 "use strict";
-import {RuleHelper, IgnoreNodeManger} from "textlint-rule-helper";
+import {RuleHelper, IgnoreNodeManager} from "textlint-rule-helper";
 import BodyMixedChecker from "./BodyMixedChecker";
 import HeaderMixedChecker from "./HeaderMixedChecker";
 import ListMixedChecker from "./ListMixedChecker";
@@ -21,7 +21,7 @@ const defaultOptions = {
 module.exports = function noMixedDearuDesumasu(context, options = defaultOptions) {
     const {Syntax, getSource} = context;
     const helper = new RuleHelper(context);
-    const ignoreManger = new IgnoreNodeManger();
+    const ignoreManager = new IgnoreNodeManager();
     const isStrict = options.strict !== undefined ? options.strict : defaultOptions.strict;
     const bodyChecker = new BodyMixedChecker(context, {
         preferDesumasu: options.preferInBody === PreferTypes.DESUMASU,
@@ -61,16 +61,16 @@ module.exports = function noMixedDearuDesumasu(context, options = defaultOptions
                 return;
             }
             // childrenに無視するtypeがいた場合は無視リストに加える
-            ignoreManger.ignoreChildrenByTypes(node, ignoredNodeTypes);
+            ignoreManager.ignoreChildrenByTypes(node, ignoredNodeTypes);
             // check
             const text = getSource(node);
             bodyChecker.check(node, text);
         },
         [Syntax.Document + ":exit"](){
             return Promise.all([
-                bodyChecker.checkout(ignoreManger),
-                headerChecker.checkout(ignoreManger),
-                listChecker.checkout(ignoreManger)
+                bodyChecker.checkout(ignoreManager),
+                headerChecker.checkout(ignoreManager),
+                listChecker.checkout(ignoreManager)
             ]);
         }
     }

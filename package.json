@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "analyze-desumasu-dearu": "^3.1.0",
-    "textlint-rule-helper": "^1.2.0",
+    "textlint-rule-helper": "^2.0.0",
     "unist-util-visit": "^1.1.0"
   }
 }
