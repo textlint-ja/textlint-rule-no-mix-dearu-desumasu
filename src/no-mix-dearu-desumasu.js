@@ -1,6 +1,6 @@
 // LICENSE : MIT
 "use strict";
-import {RuleHelper, IgnoreNodeManager} from "textlint-rule-helper";
+import { RuleHelper, IgnoreNodeManager } from "textlint-rule-helper";
 import BodyMixedChecker from "./BodyMixedChecker";
 import HeaderMixedChecker from "./HeaderMixedChecker";
 import ListMixedChecker from "./ListMixedChecker";
@@ -11,15 +11,15 @@ export const PreferTypes = {
 // デフォルトでその項目で多く出現している方を優先します。
 // 明示的にpreferの設定した場合は、そちらを優先した内容をエラーとして表示します。
 const defaultOptions = {
-    "preferInHeader": "", // "である" or "ですます"
-    "preferInBody": "",   // "である" or "ですます"
-    "preferInList": "",   // "である" or "ですます"
+    preferInHeader: "", // "である" or "ですます"
+    preferInBody: "", // "である" or "ですます"
+    preferInList: "", // "である" or "ですます"
     // 文末以外でも、敬体(ですます調)と常体(である調)を厳しくチェックするかどうか
-    "strict": false
+    strict: false
 };
 
 module.exports = function noMixedDearuDesumasu(context, options = defaultOptions) {
-    const {Syntax, getSource} = context;
+    const { Syntax, getSource } = context;
     const helper = new RuleHelper(context);
     const ignoreManager = new IgnoreNodeManager();
     const isStrict = options.strict !== undefined ? options.strict : defaultOptions.strict;
@@ -40,17 +40,17 @@ module.exports = function noMixedDearuDesumasu(context, options = defaultOptions
     });
     return {
         // 見出し
-        [Syntax.Header](node){
+        [Syntax.Header](node) {
             const text = getSource(node);
             headerChecker.check(node, text);
         },
         // 箇条書き
-        [Syntax.ListItem](node){
+        [Syntax.ListItem](node) {
             const text = getSource(node);
             listChecker.check(node, text);
         },
         // 本文
-        [Syntax.Paragraph](node){
+        [Syntax.Paragraph](node) {
             const ignoredNodeTypes = [Syntax.Link, Syntax.Code, Syntax.Image, Syntax.BlockQuote, Syntax.Emphasis];
             // 無視リストのTypeが親にある場合は無視する
             if (helper.isChildNode(node, ignoredNodeTypes)) {
@@ -66,12 +66,12 @@ module.exports = function noMixedDearuDesumasu(context, options = defaultOptions
             const text = getSource(node);
             bodyChecker.check(node, text);
         },
-        [Syntax.Document + ":exit"](){
+        [Syntax.Document + ":exit"]() {
             return Promise.all([
                 bodyChecker.checkout(ignoreManager),
                 headerChecker.checkout(ignoreManager),
                 listChecker.checkout(ignoreManager)
             ]);
         }
-    }
+    };
 };
