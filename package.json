@@ -25,7 +25,8 @@
     "build": "textlint-scripts build",
     "watch": "textlint-scripts build --watch",
     "prepublish": "npm run --if-present build",
-    "test": "textlint-scripts test"
+    "test": "textlint-scripts test",
+    "prettier": "prettier --write \"{src,test}/*.{js,jsx,ts,tsx,css}\""
   },
   "keywords": [
     "japanese",
@@ -34,11 +35,31 @@
     "textlintrule"
   ],
   "devDependencies": {
+    "husky": "^1.0.1",
+    "lint-staged": "^7.3.0",
+    "prettier": "^1.14.3",
     "textlint-scripts": "^1.2.2"
   },
   "dependencies": {
     "analyze-desumasu-dearu": "^3.1.0",
     "textlint-rule-helper": "^2.0.0",
     "unist-util-visit": "^1.1.0"
+  },
+  "prettier": {
+    "singleQuote": false,
+    "printWidth": 120,
+    "tabWidth": 4
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,css}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "post-commit": "git reset",
+      "pre-commit": "lint-staged"
+    }
   }
 }

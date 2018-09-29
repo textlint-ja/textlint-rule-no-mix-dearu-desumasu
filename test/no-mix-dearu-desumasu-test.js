@@ -1,4 +1,4 @@
-import rule from "../src/no-mix-dearu-desumasu"
+import rule from "../src/no-mix-dearu-desumasu";
 import TextLintTester from "textlint-tester";
 var tester = new TextLintTester();
 // ruleName, rule, expected[]
@@ -64,7 +64,6 @@ CはDです。`,
 [今日はいい天気である。](http://example.com)
 `
         }
-
     ],
     invalid: [
         // 本文での混在
@@ -116,7 +115,6 @@ Total:
                     line: 5,
                     column: 8
                 }
-
             ]
         },
         // 見出し間での混在
@@ -212,18 +210,19 @@ Total:
             options: {
                 strict: true
             },
-            errors: [[
-                {
-                    message: `本文: "である"調 と "ですます"調 が混在
+            errors: [
+                [
+                    {
+                        message: `本文: "である"調 と "ですます"調 が混在
 => "である。" がである調
 Total:
 である  : 1
 ですます: 1
 `,
-                    line: 1,
-                    column: 18
-                }
-            ]
+                        line: 1,
+                        column: 18
+                    }
+                ]
             ]
         },
         {

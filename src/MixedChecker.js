@@ -1,6 +1,6 @@
 // LICENSE : MIT
 "use strict";
-import {analyze, isDearu, isDesumasu} from "analyze-desumasu-dearu";
+import { analyze, isDearu, isDesumasu } from "analyze-desumasu-dearu";
 export default class MixedChecker {
     /**
      * @param context
@@ -62,10 +62,7 @@ export default class MixedChecker {
             const overType = this.getOverType();
             const overHitList = this.overHitList(overType);
             // List
-            overHitList.forEach(({
-                node,
-                matches
-            }) => {
+            overHitList.forEach(({ node, matches }) => {
                 // Node
                 const lastHitNode = node;
                 // Tokens
@@ -78,7 +75,7 @@ export default class MixedChecker {
                     const ruleError = new RuleError(this.outputMessage(token), {
                         index: token.index
                     });
-                    report(lastHitNode, ruleError)
+                    report(lastHitNode, ruleError);
                 });
             });
         });
@@ -94,7 +91,7 @@ export default class MixedChecker {
      */
     getOverType() {
         if (this.options.preferDearu) {
-            return "である"
+            return "である";
         } else if (this.options.preferDesumasu) {
             return "ですます";
         }
