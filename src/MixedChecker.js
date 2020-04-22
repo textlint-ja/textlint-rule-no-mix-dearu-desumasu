@@ -125,7 +125,7 @@ export default class MixedChecker {
         if (overType === "である") {
             // である優先 => 最後の"ですます"を表示
             return `"である"調 と "ですます"調 が混在
-=> "${token.value}" がですます調
+=> "である"調 の文体に、次の "ですます"調 の箇所があります: "${token.value}"
 Total:
 である  : ${this.dearuCount}
 ですます: ${this.desumasuCount}
@@ -133,7 +133,7 @@ Total:
         } else if (overType === "ですます") {
             // ですます優先 => 最後の"である"を表示
             return `"である"調 と "ですます"調 が混在
-=> "${token.value}" がである調
+=> "ですます"調 の文体に、次の "である"調 の箇所があります: "${token.value}"
 Total:
 である  : ${this.dearuCount}
 ですます: ${this.desumasuCount}
