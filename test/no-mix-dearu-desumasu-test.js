@@ -8,15 +8,15 @@ tester.run("no-mix-dearu-desumasu", rule, {
         {
             text: "昨日はいい天気であったのだが、今日は悪天候である。",
             options: {
-                preferInBody: "である"
-            }
+                preferInBody: "である",
+            },
         },
         {
             // ですがはstrict:false(=デフォルト)では無視される
             text: "昨日はいい天気ですが、今日は悪天候である。",
             options: {
-                preferInBody: "である"
-            }
+                preferInBody: "である",
+            },
         },
         `今日はいい天気ですね。
 
@@ -59,49 +59,49 @@ tester.run("no-mix-dearu-desumasu", rule, {
             text: `AはBである
 CはDです。`,
             options: {
-                strict: false
-            }
+                strict: false,
+            },
         },
         {
             // であるがは"接続"的なものなので無視される
             text: `AはBである
 CはDになります。`,
             options: {
-                strict: false
-            }
+                strict: false,
+            },
         },
         {
-            text: "Aである`code`です。"
+            text: "Aである`code`です。",
         },
         {
-            text: "Aである`code`になります。"
+            text: "Aである`code`になります。",
         },
         // ignore BlockQuote
         {
             text: `
 > 今日はいい天気ですね。
 > 今日はいい天気である。
-`
+`,
         },
         {
             text: `
 > 今日はいい天気になりますね。
 > 今日はいい天気である。
-`
+`,
         },
         // ignore code
         {
             text: `
 [今日はいい天気ですね。](http://example.com)
 [今日はいい天気である。](http://example.com)
-`
+`,
         },
         {
             text: `
 [今日はいい天気になりますね。](http://example.com)
 [今日はいい天気である。](http://example.com)
-`
-        }
+`,
+        },
     ],
     invalid: [
         // 本文での混在
@@ -119,9 +119,9 @@ Total:
 ですます: 1
 `,
                     line: 2,
-                    column: 8
-                }
-            ]
+                    column: 8,
+                },
+            ],
         },
         {
             text: `今日はいい天気になりますね。
@@ -137,9 +137,9 @@ Total:
 ですます: 1
 `,
                     line: 2,
-                    column: 8
-                }
-            ]
+                    column: 8,
+                },
+            ],
         },
         // 本文での混在が複数ある場合
         {
@@ -159,7 +159,7 @@ Total:
 ですます: 3
 `,
                     line: 4,
-                    column: 8
+                    column: 8,
                 },
                 {
                     message: `本文: "である"調 と "ですます"調 が混在
@@ -169,9 +169,9 @@ Total:
 ですます: 3
 `,
                     line: 5,
-                    column: 8
-                }
-            ]
+                    column: 8,
+                },
+            ],
         },
         {
             text: `今日はいい天気になりますね。
@@ -190,7 +190,7 @@ Total:
 ですます: 3
 `,
                     line: 4,
-                    column: 8
+                    column: 8,
                 },
                 {
                     message: `本文: "である"調 と "ですます"調 が混在
@@ -200,9 +200,9 @@ Total:
 ですます: 3
 `,
                     line: 5,
-                    column: 8
-                }
-            ]
+                    column: 8,
+                },
+            ],
         },
         // 見出し間での混在
         {
@@ -221,9 +221,9 @@ Total:
 ですます: 1
 `,
                     line: 4,
-                    column: 11
-                }
-            ]
+                    column: 11,
+                },
+            ],
         },
         {
             text: `
@@ -241,9 +241,9 @@ Total:
 ですます: 1
 `,
                     line: 4,
-                    column: 11
-                }
-            ]
+                    column: 11,
+                },
+            ],
         },
         // 箇条書き間での混在
         {
@@ -261,9 +261,9 @@ Total:
 ですます: 1
 `,
                     line: 3,
-                    column: 10
-                }
-            ]
+                    column: 10,
+                },
+            ],
         },
         {
             text: `
@@ -280,9 +280,9 @@ Total:
 ですます: 1
 `,
                     line: 3,
-                    column: 10
-                }
-            ]
+                    column: 10,
+                },
+            ],
         },
 
         // 優先オプションを指定した場合
@@ -294,7 +294,7 @@ Total:
 明日はいい天気である。
 `,
             options: {
-                preferInBody: "である"
+                preferInBody: "である",
             },
             errors: [
                 // 優先指定した、"である" に統一するのを優先する
@@ -306,7 +306,7 @@ Total:
 ですます: 3
 `,
                     line: 1,
-                    column: 8
+                    column: 8,
                 },
                 {
                     message: `本文: "である"調 と "ですます"調 が混在
@@ -316,7 +316,7 @@ Total:
 ですます: 3
 `,
                     line: 2,
-                    column: 8
+                    column: 8,
                 },
                 {
                     message: `本文: "である"調 と "ですます"調 が混在
@@ -326,9 +326,9 @@ Total:
 ですます: 3
 `,
                     line: 3,
-                    column: 8
-                }
-            ]
+                    column: 8,
+                },
+            ],
         },
         {
             text: `今日はいい天気ですね。
@@ -338,7 +338,7 @@ Total:
 明日はいい天気である。
 `,
             options: {
-                preferInBody: "である"
+                preferInBody: "である",
             },
             errors: [
                 // 優先指定した、"である" に統一するのを優先する
@@ -350,7 +350,7 @@ Total:
 ですます: 3
 `,
                     line: 1,
-                    column: 8
+                    column: 8,
                 },
                 {
                     message: `本文: "である"調 と "ですます"調 が混在
@@ -360,7 +360,7 @@ Total:
 ですます: 3
 `,
                     line: 2,
-                    column: 11
+                    column: 11,
                 },
                 {
                     message: `本文: "である"調 と "ですます"調 が混在
@@ -370,15 +370,15 @@ Total:
 ですます: 3
 `,
                     line: 3,
-                    column: 11
-                }
-            ]
+                    column: 11,
+                },
+            ],
         },
         // strict
         {
             text: "昨日はいい天気であったが、今日は雨です。",
             options: {
-                strict: true
+                strict: true,
             },
             errors: [
                 [
@@ -390,15 +390,15 @@ Total:
 ですます: 1
 `,
                         line: 1,
-                        column: 18
-                    }
-                ]
-            ]
+                        column: 18,
+                    },
+                ],
+            ],
         },
         {
             text: "昨日はいい天気であったが、今日は雨になります。",
             options: {
-                strict: true
+                strict: true,
             },
             errors: [
                 [
@@ -410,10 +410,10 @@ Total:
 ですます: 1
 `,
                         line: 1,
-                        column: 18
-                    }
-                ]
-            ]
+                        column: 18,
+                    },
+                ],
+            ],
         },
         {
             //                 vvvv
@@ -421,7 +421,7 @@ Total:
 しかし、今日はいい天気ですね。だが明日はどうなるかわからないのである。`,
             options: {
                 preferInBody: "である",
-                strict: true
+                strict: true,
             },
             errors: [
                 {
@@ -432,16 +432,16 @@ Total:
 ですます: 1
 `,
                     line: 2,
-                    column: 12
-                }
-            ]
+                    column: 12,
+                },
+            ],
         },
         {
             text: `今日はいい天気であるが、明日はどうなるか分からない。
 しかし、今日はいい天気になりますね。だが明日はどうなるかわからないのである。`,
             options: {
                 preferInBody: "である",
-                strict: true
+                strict: true,
             },
             errors: [
                 {
@@ -452,9 +452,9 @@ Total:
 ですます: 1
 `,
                     line: 2,
-                    column: 15
-                }
-            ]
+                    column: 15,
+                },
+            ],
         },
         {
             // "AはBである"は"接続"的なものなので無視
@@ -464,7 +464,7 @@ CはDです。
 `,
             options: {
                 preferInBody: "です",
-                strict: false
+                strict: false,
             },
             errors: [
                 {
@@ -475,9 +475,9 @@ Total:
 ですます: 1
 `,
                     line: 3,
-                    column: 12
-                }
-            ]
+                    column: 12,
+                },
+            ],
         },
         {
             // "AはBである"は"接続"的なものなので無視
@@ -487,7 +487,7 @@ CはDになります。
 `,
             options: {
                 preferInBody: "です",
-                strict: false
+                strict: false,
             },
             errors: [
                 {
@@ -498,9 +498,9 @@ Total:
 ですます: 1
 `,
                     line: 3,
-                    column: 12
-                }
-            ]
-        }
-    ]
+                    column: 12,
+                },
+            ],
+        },
+    ],
 });

@@ -35,15 +35,15 @@
     "textlintrule"
   ],
   "devDependencies": {
-    "husky": "^1.0.1",
-    "lint-staged": "^8.1.1",
-    "prettier": "^1.14.3",
-    "textlint-scripts": "^2.1.0"
+    "husky": "^4.2.5",
+    "lint-staged": "^10.1.7",
+    "prettier": "^2.0.5",
+    "textlint-scripts": "^3.0.0"
   },
   "dependencies": {
     "analyze-desumasu-dearu": "^4.0.0",
     "textlint-rule-helper": "^2.0.0",
-    "unist-util-visit": "^1.1.0"
+    "unist-util-visit": "^2.0.2"
   },
   "prettier": {
     "singleQuote": false,
