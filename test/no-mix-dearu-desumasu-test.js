@@ -4,6 +4,7 @@ var tester = new TextLintTester();
 // ruleName, rule, expected[]
 tester.run("no-mix-dearu-desumasu", rule, {
     valid: [
+        "本文、見出し、箇条書きをそれぞれ独立してチェックし、その中で表記が混在していないかを見つけます。 (本文と見出しの間で表記が混在していても問題ないという意味です)",
         "昨日はいい天気であったのだが、今日は悪天候である。",
         {
             text: "昨日はいい天気であったのだが、今日は悪天候である。",
