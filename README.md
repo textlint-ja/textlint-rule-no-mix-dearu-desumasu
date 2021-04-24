@@ -1,4 +1,4 @@
-# textlint-rule-no-mix-dearu-desumasu [![Build Status](https://travis-ci.org/azu/textlint-rule-no-mix-dearu-desumasu.svg?branch=master)](https://travis-ci.org/azu/textlint-rule-no-mix-dearu-desumasu) [![Gitter](https://badges.gitter.im/textlint-ja/textlint-ja.svg)](https://gitter.im/textlint-ja/textlint-ja?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+# textlint-rule-no-mix-dearu-desumasu [![Actions Status: test](https://github.com/azu/textlint-rule-no-mix-dearu-desumasu/workflows/test/badge.svg)](https://github.com/azu/textlint-rule-no-mix-dearu-desumasu/actions?query=workflow%3A"test")
 
 敬体(ですます調)と常体(である調)の混在をチェックする[textlint](http://textlint.github.io/ "textlint")ルール。
 

@@ -23,7 +23,7 @@ export default class MixedChecker {
     check(node, text) {
         this._queue = this._queue.then(() => {
             const analyzeOptions = {
-                ignoreConjunction: !this.options.isStrict,
+                ignoreConjunction: !this.options.isStrict
             };
             return analyze(text, analyzeOptions).then((results) => {
                 const retDearu = results.filter(isDearu);
@@ -34,14 +34,14 @@ export default class MixedChecker {
                     this.dearuCount = dearuCount;
                     this.dearuHitList.push({
                         node,
-                        matches: retDearu,
+                        matches: retDearu
                     });
                 }
                 if (this.desumasuCount !== desumasuCount) {
                     this.desumasuCount = desumasuCount;
                     this.desumasuHitList.push({
                         node,
-                        matches: retDesumasu,
+                        matches: retDesumasu
                     });
                 }
             });
@@ -73,7 +73,7 @@ export default class MixedChecker {
                     }
 
                     const ruleError = new RuleError(this.outputMessage(token), {
-                        index: token.index,
+                        index: token.index
                     });
                     report(lastHitNode, ruleError);
                 });

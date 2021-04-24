@@ -6,7 +6,7 @@ import HeaderMixedChecker from "./HeaderMixedChecker";
 import ListMixedChecker from "./ListMixedChecker";
 export const PreferTypes = {
     DESUMASU: "ですます",
-    DEARU: "である",
+    DEARU: "である"
 };
 // デフォルトでその項目で多く出現している方を優先します。
 // 明示的にpreferの設定した場合は、そちらを優先した内容をエラーとして表示します。
@@ -15,7 +15,7 @@ const defaultOptions = {
     preferInBody: "", // "である" or "ですます"
     preferInList: "", // "である" or "ですます"
     // 文末以外でも、敬体(ですます調)と常体(である調)を厳しくチェックするかどうか
-    strict: false,
+    strict: false
 };
 
 module.exports = function noMixedDearuDesumasu(context, options = defaultOptions) {
@@ -26,17 +26,17 @@ module.exports = function noMixedDearuDesumasu(context, options = defaultOptions
     const bodyChecker = new BodyMixedChecker(context, {
         preferDesumasu: options.preferInBody === PreferTypes.DESUMASU,
         preferDearu: options.preferInBody === PreferTypes.DEARU,
-        isStrict,
+        isStrict
     });
     const headerChecker = new HeaderMixedChecker(context, {
         preferDesumasu: options.preferInHeader === PreferTypes.DESUMASU,
         preferDearu: options.preferInHeader === PreferTypes.DEARU,
-        isStrict,
+        isStrict
     });
     const listChecker = new ListMixedChecker(context, {
         preferDesumasu: options.preferInList === PreferTypes.DESUMASU,
         preferDearu: options.preferInList === PreferTypes.DEARU,
-        isStrict,
+        isStrict
     });
     return {
         // 見出し
@@ -70,8 +70,8 @@ module.exports = function noMixedDearuDesumasu(context, options = defaultOptions
             return Promise.all([
                 bodyChecker.checkout(ignoreManager),
                 headerChecker.checkout(ignoreManager),
-                listChecker.checkout(ignoreManager),
+                listChecker.checkout(ignoreManager)
             ]);
-        },
+        }
     };
 };
