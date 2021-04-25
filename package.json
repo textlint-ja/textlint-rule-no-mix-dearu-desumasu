@@ -27,7 +27,7 @@
     "prepublish": "npm run --if-present build",
     "test": "textlint-scripts test",
     "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,css}\"",
-    "prepare": "git config --local core.hooksPath .githook"
+    "prepare": "git config --local core.hooksPath .githooks"
   },
   "keywords": [
     "japanese",
