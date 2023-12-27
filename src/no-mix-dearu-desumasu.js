@@ -15,7 +15,11 @@ const defaultOptions = {
     preferInBody: "", // "である" or "ですます"
     preferInList: "", // "である" or "ですます"
     // 文末以外でも、敬体(ですます調)と常体(である調)を厳しくチェックするかどうか
-    strict: false
+    strict: false,
+    // preferInでの設定を、"優先" ではなく、"強制" するかどうか
+    // 有効化した場合、被検査テキストの表現が統一されていても、
+    // preferInオプションで指定された表現に強制する
+    enforcePreferences: false
 };
 
 module.exports = function noMixedDearuDesumasu(context, options = defaultOptions) {
@@ -23,20 +27,25 @@ module.exports = function noMixedDearuDesumasu(context, options = defaultOptions
     const helper = new RuleHelper(context);
     const ignoreManager = new IgnoreNodeManager();
     const isStrict = options.strict !== undefined ? options.strict : defaultOptions.strict;
+    const isEnforcePreferences =
+        options.enforcePreferences !== undefined ? options.enforcePreferences : defaultOptions.enforcePreferences;
     const bodyChecker = new BodyMixedChecker(context, {
         preferDesumasu: options.preferInBody === PreferTypes.DESUMASU,
         preferDearu: options.preferInBody === PreferTypes.DEARU,
-        isStrict
+        isStrict,
+        isEnforcePreferences
     });
     const headerChecker = new HeaderMixedChecker(context, {
         preferDesumasu: options.preferInHeader === PreferTypes.DESUMASU,
         preferDearu: options.preferInHeader === PreferTypes.DEARU,
-        isStrict
+        isStrict,
+        isEnforcePreferences
     });
     const listChecker = new ListMixedChecker(context, {
         preferDesumasu: options.preferInList === PreferTypes.DESUMASU,
         preferDearu: options.preferInList === PreferTypes.DEARU,
-        isStrict
+        isStrict,
+        isEnforcePreferences
     });
     return {
         // 見出し

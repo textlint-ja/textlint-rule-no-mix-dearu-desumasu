@@ -246,6 +246,7 @@ Total:
                 }
             ]
         },
+
         // 箇条書き間での混在
         {
             text: `
@@ -500,6 +501,158 @@ Total:
 `,
                     line: 3,
                     column: 12
+                }
+            ]
+        },
+
+        // 強制オプションを指定した場合
+        {
+            text: `今日はいい天気である。
+明日はいい天気である。`,
+            options: {
+                preferInBody: "ですます",
+                enforcePreferences: true
+            },
+            errors: [
+                // enforcePreferencesオプションにより"ですます"を強制した場合、"である"に統一されていても、"ですます"を優先する
+                {
+                    message: `本文: "である"調 と "ですます"調 が混在
+=> "ですます"調 の文体に、次の "である"調 の箇所があります: "である。"
+Total:
+である  : 2
+ですます: 0
+`,
+                    line: 1,
+                    column: 8
+                },
+                {
+                    message: `本文: "である"調 と "ですます"調 が混在
+=> "ですます"調 の文体に、次の "である"調 の箇所があります: "である。"
+Total:
+である  : 2
+ですます: 0
+`,
+                    line: 2,
+                    column: 8
+                }
+            ]
+        },
+        {
+            text: `今日はいい天気ですね。
+明日はいい天気ですね。`,
+            options: {
+                preferInBody: "である",
+                enforcePreferences: true
+            },
+            errors: [
+                // enforcePreferencesオプションにより"である"を強制した場合、"ですます"に統一されていても、"である"を優先する
+                {
+                    message: `本文: "である"調 と "ですます"調 が混在
+=> "である"調 の文体に、次の "ですます"調 の箇所があります: "ですね。"
+Total:
+である  : 0
+ですます: 2
+`,
+                    line: 1,
+                    column: 8
+                },
+                {
+                    message: `本文: "である"調 と "ですます"調 が混在
+=> "である"調 の文体に、次の "ですます"調 の箇所があります: "ですね。"
+Total:
+である  : 0
+ですます: 2
+`,
+                    line: 2,
+                    column: 8
+                }
+            ]
+        },
+        {
+            text: `
+# 今日はいい天気である
+`,
+            options: {
+                preferInHeader: "ですます",
+                enforcePreferences: true
+            },
+            errors: [
+                // enforcePreferencesオプションにより"ですます"を強制した場合、"である"に統一されていても、"ですます"を優先する
+                {
+                    message: `見出し: "である"調 と "ですます"調 が混在
+=> "ですます"調 の文体に、次の "である"調 の箇所があります: "である"
+Total:
+である  : 1
+ですます: 0
+`,
+                    line: 2,
+                    column: 10
+                }
+            ]
+        },
+        {
+            text: `
+# 今日はいい天気になりますね
+`,
+            options: {
+                preferInHeader: "である",
+                enforcePreferences: true
+            },
+            errors: [
+                // enforcePreferencesオプションにより"である"を強制した場合、"ですます"に統一されていても、"である"を優先する
+                {
+                    message: `見出し: "である"調 と "ですます"調 が混在
+=> "である"調 の文体に、次の "ですます"調 の箇所があります: "ますね"
+Total:
+である  : 0
+ですます: 1
+`,
+                    line: 2,
+                    column: 13
+                }
+            ]
+        },
+        {
+            text: `
+- 今日はいい天気である
+`,
+            options: {
+                preferInList: "ですます",
+                enforcePreferences: true
+            },
+            errors: [
+                // enforcePreferencesオプションにより"ですます"を強制した場合、"である"に統一されていても、"ですます"を優先する
+                {
+                    message: `箇条書き: "である"調 と "ですます"調 が混在
+=> "ですます"調 の文体に、次の "である"調 の箇所があります: "である"
+Total:
+である  : 1
+ですます: 0
+`,
+                    line: 2,
+                    column: 10
+                }
+            ]
+        },
+        {
+            text: `
+- 今日はいい天気になりますね
+`,
+            options: {
+                preferInList: "である",
+                enforcePreferences: true
+            },
+            errors: [
+                // enforcePreferencesオプションにより"である"を強制した場合、"ですます"に統一されていても、"である"を優先する
+                {
+                    message: `箇条書き: "である"調 と "ですます"調 が混在
+=> "である"調 の文体に、次の "ですます"調 の箇所があります: "ますね"
+Total:
+である  : 0
+ですます: 1
+`,
+                    line: 2,
+                    column: 13
                 }
             ]
         }
