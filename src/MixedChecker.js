@@ -1,6 +1,7 @@
 // LICENSE : MIT
 "use strict";
 import { analyze, isDearu, isDesumasu } from "analyze-desumasu-dearu";
+
 export default class MixedChecker {
     /**
      * @param context
@@ -82,11 +83,12 @@ export default class MixedChecker {
     }
 
     isOver() {
-        return (
-            (this.options.preferDesumasu && this.dearuCount !== 0) ||
-            (this.options.preferDearu && this.desumasuCount !== 0) ||
-            (this.dearuCount !== 0 && this.desumasuCount !== 0)
-        );
+        if (this.options.preferDesumasu) {
+            return this.dearuCount !== 0;
+        } else if (this.options.preferDearu) {
+            return this.desumasuCount !== 0;
+        }
+        return this.dearuCount !== 0 && this.desumasuCount !== 0;
     }
 
     /**
