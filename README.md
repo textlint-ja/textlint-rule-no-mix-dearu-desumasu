@@ -51,11 +51,7 @@ textlint --rule no-mix-dearu-desumasu README.md
              "preferInBody": "ですます",// "である" or "ですます"
              "preferInList": "である",    // "である" or "ですます"
              // 文末以外でも、敬体(ですます調)と常体(である調)を厳しくチェックするかどうか
-             "strict": false,
-             // preferInでの設定を、"優先" ではなく、"強制" するかどうか
-             // 有効化した場合、被検査テキストの表現が統一されていても、
-             // preferInオプションで指定された表現に強制する
-             "enforcePreferences": false
+             "strict": false
          }
     }
 }
@@ -101,17 +97,6 @@ textlint --rule no-mix-dearu-desumasu README.md
 (**ですが**は接続的、**である**は文末)
 
 > NG: 今日はいい天気ですが、明日は悪天候である。
-
-- `enforcePreferences`
-  - default: `false`
-  - preferInでの設定を、"優先" ではなく、"強制" するかどうか
-
-例えば、`enforcePreferences:true`かつ、`preferInBody: "ですます"`では、以下のような **"である"** に統一された文章であっても、
-`preferInBody`の設定と異なる表現になっているため、エラーとなります。
-
-> NG: 今日はいい天気である。気持ちの良い朝である。
-
-> OK: 今日はいい天気ですね。気持ちの良い朝です。
 
 ## Example
 

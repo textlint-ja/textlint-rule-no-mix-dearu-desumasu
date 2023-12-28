@@ -10,7 +10,7 @@ export default class MixedChecker {
         this.context = context;
         /**
          * 明示的な優先するタイプの指定
-         * @type {{preferDearu: boolean, preferDesumasu: boolean, isStrict: boolean, isEnforcePreferences: boolean}}
+         * @type {{preferDearu: boolean, preferDesumasu: boolean, isStrict: boolean}}
          */
         this.options = options;
         this.dearuCount = 0;
@@ -82,10 +82,11 @@ export default class MixedChecker {
     }
 
     isOver() {
-        return this.options.isEnforcePreferences
-            ? (this.options.preferDesumasu && this.dearuCount !== 0) ||
-                  (this.options.preferDearu && this.desumasuCount !== 0)
-            : this.dearuCount !== 0 && this.desumasuCount !== 0;
+        return (
+            (this.options.preferDesumasu && this.dearuCount !== 0) ||
+            (this.options.preferDearu && this.desumasuCount !== 0) ||
+            (this.dearuCount !== 0 && this.desumasuCount !== 0)
+        );
     }
 
     /**

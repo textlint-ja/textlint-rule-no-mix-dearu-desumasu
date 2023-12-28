@@ -505,16 +505,15 @@ Total:
             ]
         },
 
-        // 強制オプションを指定した場合
+        // 混在はしていないがpreferInの設定と一致していない場合
         {
             text: `今日はいい天気である。
 明日はいい天気である。`,
             options: {
-                preferInBody: "ですます",
-                enforcePreferences: true
+                preferInBody: "ですます"
             },
             errors: [
-                // enforcePreferencesオプションにより"ですます"を強制した場合、"である"に統一されていても、"ですます"を優先する
+                // preferInで"ですます"が設定されているため、"である"に統一された文章でも、"ですます"を優先する
                 {
                     message: `本文: "である"調 と "ですます"調 が混在
 => "ですます"調 の文体に、次の "である"調 の箇所があります: "である。"
@@ -541,11 +540,10 @@ Total:
             text: `今日はいい天気ですね。
 明日はいい天気ですね。`,
             options: {
-                preferInBody: "である",
-                enforcePreferences: true
+                preferInBody: "である"
             },
             errors: [
-                // enforcePreferencesオプションにより"である"を強制した場合、"ですます"に統一されていても、"である"を優先する
+                // preferInで"である"が設定されているため、"ですます"に統一された文章でも、"である"を優先する
                 {
                     message: `本文: "である"調 と "ですます"調 が混在
 => "である"調 の文体に、次の "ですます"調 の箇所があります: "ですね。"
@@ -573,11 +571,10 @@ Total:
 # 今日はいい天気である
 `,
             options: {
-                preferInHeader: "ですます",
-                enforcePreferences: true
+                preferInHeader: "ですます"
             },
             errors: [
-                // enforcePreferencesオプションにより"ですます"を強制した場合、"である"に統一されていても、"ですます"を優先する
+                // preferInで"ですます"が設定されているため、"である"に統一された文章でも、"ですます"を優先する
                 {
                     message: `見出し: "である"調 と "ですます"調 が混在
 => "ですます"調 の文体に、次の "である"調 の箇所があります: "である"
@@ -595,11 +592,10 @@ Total:
 # 今日はいい天気になりますね
 `,
             options: {
-                preferInHeader: "である",
-                enforcePreferences: true
+                preferInHeader: "である"
             },
             errors: [
-                // enforcePreferencesオプションにより"である"を強制した場合、"ですます"に統一されていても、"である"を優先する
+                // preferInで"である"が設定されているため、"ですます"に統一された文章でも、"である"を優先する
                 {
                     message: `見出し: "である"調 と "ですます"調 が混在
 => "である"調 の文体に、次の "ですます"調 の箇所があります: "ますね"
@@ -617,11 +613,10 @@ Total:
 - 今日はいい天気である
 `,
             options: {
-                preferInList: "ですます",
-                enforcePreferences: true
+                preferInList: "ですます"
             },
             errors: [
-                // enforcePreferencesオプションにより"ですます"を強制した場合、"である"に統一されていても、"ですます"を優先する
+                // preferInで"ですます"が設定されているため、"である"に統一された文章でも、"ですます"を優先する
                 {
                     message: `箇条書き: "である"調 と "ですます"調 が混在
 => "ですます"調 の文体に、次の "である"調 の箇所があります: "である"
@@ -639,11 +634,10 @@ Total:
 - 今日はいい天気になりますね
 `,
             options: {
-                preferInList: "である",
-                enforcePreferences: true
+                preferInList: "である"
             },
             errors: [
-                // enforcePreferencesオプションにより"である"を強制した場合、"ですます"に統一されていても、"である"を優先する
+                // preferInで"である"が設定されているため、"ですます"に統一された文章でも、"である"を優先する
                 {
                     message: `箇条書き: "である"調 と "ですます"調 が混在
 => "である"調 の文体に、次の "ですます"調 の箇所があります: "ますね"
