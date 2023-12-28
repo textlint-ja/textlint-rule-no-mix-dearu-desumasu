@@ -82,7 +82,11 @@ export default class MixedChecker {
     }
 
     isOver() {
-        return this.dearuCount !== 0 && this.desumasuCount !== 0;
+        return (
+            (this.options.preferDesumasu && this.dearuCount !== 0) ||
+            (this.options.preferDearu && this.desumasuCount !== 0) ||
+            (this.dearuCount !== 0 && this.desumasuCount !== 0)
+        );
     }
 
     /**
