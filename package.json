@@ -2,14 +2,14 @@
   "name": "textlint-rule-no-mix-dearu-desumasu",
   "repository": {
     "type": "git",
-    "url": "https://github.com/azu/textlint-rule-no-mix-dearu-desumasu.git"
+    "url": "https://github.com/textlint-ja/textlint-rule-no-mix-dearu-desumasu.git"
   },
   "author": "azu",
   "email": "azuciao@gmail.com",
-  "homepage": "https://github.com/azu/textlint-rule-no-mix-dearu-desumasu",
+  "homepage": "https://github.com/textlint-ja/textlint-rule-no-mix-dearu-desumasu",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/azu/textlint-rule-no-mix-dearu-desumasu/issues"
+    "url": "https://github.com/textlint-ja/textlint-rule-no-mix-dearu-desumasu/issues"
   },
   "version": "6.0.0",
   "description": "textlint rule that no mixed である and ですます.",

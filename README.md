@@ -1,4 +1,4 @@
-# textlint-rule-no-mix-dearu-desumasu [![Actions Status: test](https://github.com/azu/textlint-rule-no-mix-dearu-desumasu/workflows/test/badge.svg)](https://github.com/azu/textlint-rule-no-mix-dearu-desumasu/actions?query=workflow%3A"test")
+# textlint-rule-no-mix-dearu-desumasu [![Actions Status: test](https://github.com/textlint-ja/textlint-rule-no-mix-dearu-desumasu/workflows/test/badge.svg)](https://github.com/textlint-ja/textlint-rule-no-mix-dearu-desumasu/actions?query=workflow%3A"test")
 
 敬体(ですます調)と常体(である調)の混在をチェックする[textlint](http://textlint.github.io/ "textlint")ルール。
 
@@ -111,7 +111,7 @@ Total:
 である  : 3
 ですます: 3
 
-/Users/azu/.ghq/github.com/azu/textlint-rule-no-mix-dearu-desumasu/example/README.md:7:7
+textlint-rule-no-mix-dearu-desumasu/example/README.md:7:7
                     v
     6. 
     7. 結果として「である」調と「ですます」調の使われる数をだしたものである。
@@ -179,26 +179,26 @@ A. オプションに`"strict": true`を追加してください。
 
 関連Issue
 
-- [接続的な "である" を無視するオプション · Issue #5 · azu/analyze-desumasu-dearu](https://github.com/azu/analyze-desumasu-dearu/issues/5)
-- [Proposal: デフォルトでは文末の"です/である"のみ検出するように · Issue #13 · azu/textlint-rule-no-mix-dearu-desumasu](https://github.com/azu/textlint-rule-no-mix-dearu-desumasu/issues/13)
+- [接続的な "である" を無視するオプション · Issue #5 · textlint-ja/analyze-desumasu-dearu](https://github.com/textlint-ja/analyze-desumasu-dearu/issues/5)
+- [Proposal: デフォルトでは文末の"です/である"のみ検出するように · Issue #13 · textlint-ja/textlint-rule-no-mix-dearu-desumasu](https://github.com/textlint-ja/textlint-rule-no-mix-dearu-desumasu/issues/13)
 
 ### Q. これは誤判定なのでは?
 
 A. 以下のIssueに書き込んで下さい。
 
-- [誤判定してるケースを書き込む場所 · Issue #15 · azu/textlint-rule-no-mix-dearu-desumasu](https://github.com/azu/textlint-rule-no-mix-dearu-desumasu/issues/15 "誤判定してるケースを書き込む場所 · Issue #15 · azu/textlint-rule-no-mix-dearu-desumasu")
+- [誤判定してるケースを書き込む場所 · Issue #15 · textlint-ja/textlint-rule-no-mix-dearu-desumasu](https://github.com/textlint-ja/textlint-rule-no-mix-dearu-desumasu/issues/15 "誤判定してるケースを書き込む場所 · Issue #15 · textlint-ja/textlint-rule-no-mix-dearu-desumasu")
 
 ## Further Reading
 
 - [JTF日本語標準スタイルガイド](https://www.jtf.jp/jp/style_guide/styleguide_top.html "JTF日本語標準スタイルガイド")
     - 1.1.1 - 1.1.3で同様のルールが扱われています。
-    - [azu/textlint-rule-preset-JTF-style: JTF日本語標準スタイルガイド for textlint.](https://github.com/azu/textlint-rule-preset-JTF-style "azu/textlint-rule-preset-JTF-style: JTF日本語標準スタイルガイド for textlint.")も参照してください。
+    - [textlint-ja/textlint-rule-preset-JTF-style: JTF日本語標準スタイルガイド for textlint.](https://github.com/textlint-ja/textlint-rule-preset-JTF-style "textlint-ja/textlint-rule-preset-JTF-style: JTF日本語標準スタイルガイド for textlint.")も参照してください。
 
 ## リファクタリング例
 
 このルールを使ってリファクタリングしてみた例です。
 
-- [refactor(textlint): 敬体(ですます調)と常体(である調)の使い分けを厳密に by azu · Pull Request #94 · azu/JavaScript-Plugin-Architecture](https://github.com/azu/JavaScript-Plugin-Architecture/pull/94 "refactor(textlint): 敬体(ですます調)と常体(である調)の使い分けを厳密に by azu · Pull Request #94 · azu/JavaScript-Plugin-Architecture") 
+- [refactor(textlint): 敬体(ですます調)と常体(である調)の使い分けを厳密に by azu · Pull Request #94 · textlint-ja/JavaScript-Plugin-Architecture](https://github.com/textlint-ja/JavaScript-Plugin-Architecture/pull/94 "refactor(textlint): 敬体(ですます調)と常体(である調)の使い分けを厳密に by azu · Pull Request #94 · textlint-ja/JavaScript-Plugin-Architecture") 
 
 ```diff
 -先ほどのgulpタスクの例では、既にモジュール化された処理を`pipe`で繋げただけであるため、
@@ -233,11 +233,11 @@ A. 以下のIssueに書き込んで下さい。
 
 他にいい代替表現など書き方の指摘を募集しています。
 
-- [Docs: リファクタリング例を募集 · Issue #11 · azu/textlint-rule-no-mix-dearu-desumasu](https://github.com/azu/textlint-rule-no-mix-dearu-desumasu/issues/11 "Docs: リファクタリング例を募集 · Issue #11 · azu/textlint-rule-no-mix-dearu-desumasu")
+- [Docs: リファクタリング例を募集 · Issue #11 · textlint-ja/textlint-rule-no-mix-dearu-desumasu](https://github.com/textlint-ja/textlint-rule-no-mix-dearu-desumasu/issues/11 "Docs: リファクタリング例を募集 · Issue #11 · textlint-ja/textlint-rule-no-mix-dearu-desumasu")
 
 敬体(ですます調)、常体(である調)の判定は以下のライブラリを利用しています。
 
-- [azu/analyze-desumasu-dearu: 文の敬体(ですます調)、常体(である調)を解析するJavaScriptライブラリ](https://github.com/azu/analyze-desumasu-dearu "azu/analyze-desumasu-dearu: 文の敬体(ですます調)、常体(である調)を解析するJavaScriptライブラリ")
+- [textlint-ja/analyze-desumasu-dearu: 文の敬体(ですます調)、常体(である調)を解析するJavaScriptライブラリ](https://github.com/textlint-ja/analyze-desumasu-dearu "textlint-ja/analyze-desumasu-dearu: 文の敬体(ですます調)、常体(である調)を解析するJavaScriptライブラリ")
 
 ## Tests
 
