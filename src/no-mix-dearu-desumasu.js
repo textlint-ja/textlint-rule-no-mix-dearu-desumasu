@@ -27,7 +27,7 @@ const assertPreferOption = (preferType) => {
     if (!allowedTypes.includes(preferType)) {
         throw new Error(`preferInHeader, preferInBody, preferInList は ${allowedTypes.map((type) => {
             return `"${type}"`;
-        })} のどれかである必要があります。. 
+        })} のどれかである必要があります。 
 
 実際の値: "${preferType}"`);
     }
