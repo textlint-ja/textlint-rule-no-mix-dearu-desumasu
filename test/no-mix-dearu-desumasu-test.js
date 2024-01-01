@@ -465,7 +465,7 @@ CはDです。
 一方、AとCは同じものである。
 `,
             options: {
-                preferInBody: "です",
+                preferInBody: "ですます",
                 strict: false
             },
             errors: [
@@ -488,7 +488,7 @@ CはDになります。
 一方、AとCは同じものである。
 `,
             options: {
-                preferInBody: "です",
+                preferInBody: "ですます",
                 strict: false
             },
             errors: [

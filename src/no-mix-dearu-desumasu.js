@@ -4,6 +4,7 @@ import { RuleHelper, IgnoreNodeManager } from "textlint-rule-helper";
 import BodyMixedChecker from "./BodyMixedChecker";
 import HeaderMixedChecker from "./HeaderMixedChecker";
 import ListMixedChecker from "./ListMixedChecker";
+
 export const PreferTypes = {
     DESUMASU: "ですます",
     DEARU: "である"
@@ -18,11 +19,28 @@ const defaultOptions = {
     strict: false
 };
 
+const allowedTypes = [/*auto*/ "", PreferTypes.DESUMASU, PreferTypes.DEARU];
+const assertPreferOption = (preferType) => {
+    if (!preferType) {
+        return;
+    }
+    if (!allowedTypes.includes(preferType)) {
+        throw new Error(`preferInHeader, preferInBody, preferInList は ${allowedTypes.map((type) => {
+            return `"${type}"`;
+        })} のどれかである必要があります。. 
+
+実際の値: "${preferType}"`);
+    }
+};
+
 module.exports = function noMixedDearuDesumasu(context, options = defaultOptions) {
     const { Syntax, getSource } = context;
     const helper = new RuleHelper(context);
     const ignoreManager = new IgnoreNodeManager();
     const isStrict = options.strict !== undefined ? options.strict : defaultOptions.strict;
+    assertPreferOption(options.preferInHeader);
+    assertPreferOption(options.preferInBody);
+    assertPreferOption(options.preferInList);
     const bodyChecker = new BodyMixedChecker(context, {
         preferDesumasu: options.preferInBody === PreferTypes.DESUMASU,
         preferDearu: options.preferInBody === PreferTypes.DEARU,
