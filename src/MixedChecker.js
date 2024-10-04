@@ -128,22 +128,32 @@ export default class MixedChecker {
      */
     outputMessage(token) {
         const overType = this.getOverType();
+        let topMessage = "";
         if (overType === "である") {
             // である優先 => 最後の"ですます"を表示
-            return `"である"調 と "ですます"調 が混在
-=> "である"調 の文体に、次の "ですます"調 の箇所があります: "${token.value}"
-Total:
-である  : ${this.dearuCount}
-ですます: ${this.desumasuCount}
-`;
+            if (this.options.preferDearu) {
+                // である優先が指定されている場合
+                topMessage = `"である"調 でなければなりません
+=> "である"調 であるべき箇所に、次の "ですます"調 の箇所があります`;
+            } else {
+                topMessage = `"である"調 と "ですます"調 が混在
+=> "である"調 の文体に、次の "ですます"調 の箇所があります`;
+            }
         } else if (overType === "ですます") {
             // ですます優先 => 最後の"である"を表示
-            return `"である"調 と "ですます"調 が混在
-=> "ですます"調 の文体に、次の "である"調 の箇所があります: "${token.value}"
+            if (this.options.preferDesumasu) {
+                // ですます優先が指定されている場合
+                topMessage = `"ですます"調 でなければなりません
+=> "ですます"調 であるべき箇所に、次の "である"調 の箇所があります`;
+            } else {
+                topMessage = `"である"調 と "ですます"調 が混在
+=> "ですます"調 の文体に、次の "である"調 の箇所があります`;
+            }
+        }
+        return `${topMessage}: "${token.value}"
 Total:
 である  : ${this.dearuCount}
 ですます: ${this.desumasuCount}
 `;
-        }
     }
 }
