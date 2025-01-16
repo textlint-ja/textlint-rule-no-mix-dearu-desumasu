@@ -102,7 +102,9 @@ CはDになります。`,
 [今日はいい天気になりますね。](http://example.com)
 [今日はいい天気である。](http://example.com)
 `
-        }
+        },
+        // https://github.com/textlint-ja/textlint-rule-no-mix-dearu-desumasu/issues/52
+        "構成物の崩れやすさ、脆さに注意が必要である。"
     ],
     invalid: [
         // 本文での混在
